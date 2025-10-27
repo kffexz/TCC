@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Gym Warriors - Perfil</title>
+    <link rel="stylesheet" href="style/home.css" />
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="form-box">
+            <h2>Perfil</h2>
+            <div class="perfil-info">
+                <p><strong>Nome:</strong> <span id="userName">Carregando...</span></p>
+                <p><strong>Idade:</strong> <span id="perfilIdade">Carregando...</span></p>
+                <p><strong>Peso:</strong> <span id="perfilPeso">Carregando...</span></p>
+                <p><strong>Altura:</strong> <span id="perfilAltura">Carregando...</span></p>
+                <p><strong>Objetivo:</strong> <span id="perfilObjetivo">Carregando...</span></p>
+                <p><strong>Equipamentos:</strong> <span id="perfilEquipamentos">Carregando...</span></p><br />
+                <button id="editEquipamentosBtn">Editar Equipamentos</button> <br> <br>
+
+                <button id="editarPerfilBtn">Editar Perfil</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 🟢 Barra de Navegação Inferior -->
+    <nav class="tab-bar">
+        <a href="home.html" style="text-decoration: none;" class="tab active">
+            <ion-icon name="home-outline"></ion-icon>
+            <span>Home</span>
+        </a>
+        <a href="treinos.html" style="text-decoration: none;" class="tab">
+            <ion-icon name="barbell-outline"></ion-icon>
+            <span>Treinos</span>
+        </a>
+        <a href="progresso.html" style="text-decoration: none;" class="tab">
+            <ion-icon name="stats-chart-outline"></ion-icon>
+            <span>Progresso</span>
+        </a>
+        <a href="perfil.html" style="text-decoration: none;" class="tab">
+            <ion-icon name="person-outline"></ion-icon>
+            <span>Perfil</span>
+        </a>
+    </nav>
+
+    <!-- Ícones do Ionic -->
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+    <script>
+        // Configuração Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyAbVJUTwovjKHua6OWP_yIncKYytEEwPfo",
+            authDomain: "tcc-994f7.firebaseapp.com",
+            projectId: "tcc-994f7",
+            storageBucket: "tcc-994f7.firebasestorage.app",
+            messagingSenderId: "848443566233",
+            appId: "1:848443566233:web:b9be3b2beccb027fa53008",
+            measurementId: "G-SGB2LYMT17",
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        // Monitorar autenticação do usuário
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                db.collection("usuarios")
+                    .doc(user.uid)
+                    .get()
+                    .then((doc) => {
+                        if (doc.exists) {
+                            const dados = doc.data();
+                            document.getElementById("userName").textContent = user.displayName || "---";
+                            document.getElementById("perfilIdade").textContent = dados.idade || "---";
+                            document.getElementById("perfilPeso").textContent = dados.peso || "---";
+                            document.getElementById("perfilAltura").textContent = dados.altura || "---";
+                            document.getElementById("perfilObjetivo").textContent = dados.objetivo || "---";
+
+                            if (dados.equipamentos && dados.equipamentos.length > 0) {
+                                document.getElementById("perfilEquipamentos").textContent = dados.equipamentos.join(", ");
+                            } else {
+                                document.getElementById("perfilEquipamentos").textContent = "Nenhum equipamento selecionado";
+                            }
+                        } else {
+                            document.querySelector(".perfil-info").innerHTML = "<p style='font-family: 'Poppins''><strong>Dados não encontrados.</p><br><p>Por favor, termine de realizar seu <a href='cadastro2.html' style='color: #1A1A1A; text-decoration: none'><strong>cadastro</strong> </a></strong><p>";
+                        }// roger da a bunda todo dia  de manha sim ou nao? 
+                        // demaaaiss
+                    })
+                    .catch((err) => {
+                        console.error("Erro ao buscar dados do usuário:", err);
+                    });
+            } else {
+                window.location.href = "login.html";
+            }
+        });
+
+        // Botão editar equipamentos
+        const editarBtn = document.getElementById("editEquipamentosBtn");
+        if (editarBtn) {
+            editarBtn.addEventListener("click", () => {
+                window.location.href = "cadastro3.html";
+            });
+        }
+
+        // Botão editar equipamentos
+        const editarpfBtn = document.getElementById("editarPerfilBtn");
+        if (editarpfBtn) {
+            editarpfBtn.addEventListener("click", () => {
+                window.location.href = "editPerfil.html";
+            });
+        }
+
+        // Correção do erro "tabs is not defined"
+        // Definindo e usando a variável tabs para a barra de navegação
+        const tabs = document.querySelectorAll(".tab");
+
+        tabs.forEach((tab) => {
+            tab.addEventListener("click", () => {
+                tabs.forEach((t) => t.classList.remove("active"));
+                tab.classList.add("active");
+            });
+        });
+    </script>
+</body>
+
+</html>

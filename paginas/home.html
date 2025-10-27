@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="../assets/logo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gym Warriors - Home</title>
+
+  <link rel="stylesheet" href="style/home.css">
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+</head>
+
+<body>
+  <div class="container" id="conteudo">
+    <div class="form-box">
+      <h2>Bem-vindo!</h2>
+      <p id="userName">Carregando...</p>
+      <button id="logoutBtn" style="margin-top: 10px;">Sair</button>
+    </div>
+  </div>
+
+<!-- 🟢 Barra de Navegação Inferior -->
+<nav class="tab-bar">
+  <a href="home.html" style="text-decoration: none;" class="tab active">
+    <ion-icon name="home-outline"></ion-icon>
+    <span>Home</span>
+  </a>
+  <a href="treinos.html" style="text-decoration: none;" class="tab">
+    <ion-icon name="barbell-outline"></ion-icon>
+    <span>Treinos</span>
+  </a>
+  <a href="progresso.html" style="text-decoration: none;" class="tab">
+    <ion-icon name="stats-chart-outline"></ion-icon>
+    <span>Progresso</span>
+  </a>
+  <a href="perfil.html" style="text-decoration: none;" class="tab">
+    <ion-icon name="person-outline"></ion-icon>
+    <span>Perfil</span>
+  </a>
+</nav>
+
+  <!-- Ícones do Ionic -->
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+  <script>
+    // =============================
+    // CONFIGURAÇÃO FIREBASE
+    // =============================
+    const firebaseConfig = {
+      apiKey: "AIzaSyAbVJUTwovjKHua6OWP_yIncKYytEEwPfo",
+      authDomain: "tcc-994f7.firebaseapp.com",
+      projectId: "tcc-994f7",
+      storageBucket: "tcc-994f7.firebasestorage.app",
+      messagingSenderId: "848443566233",
+      appId: "1:848443566233:web:b9be3b2beccb027fa53008",
+      measurementId: "G-SGB2LYMT17"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    // =============================
+    // LOGIN / LOGOUT
+    // =============================
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        document.getElementById('userName').textContent =
+          "Nome do usuário: " + (user.displayName || "Sem nome");
+      } else {
+        window.location.href = 'login.html';
+      }
+    });
+
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      auth.signOut().then(() => {
+        window.location.href = 'login.html';
+      });
+    });
+
+    // =============================
+    // NAVEGAÇÃO ENTRE ABAS
+    // =============================
+    const tabs = document.querySelectorAll('.tab');
+    const conteudo = document.getElementById('conteudo');
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+
+        const nomeAba = tab.dataset.tab;
+        conteudo.innerHTML = paginas[nomeAba];
+
+        // Reatribuir o botão de logout quando for Home
+        if (nomeAba === 'home') {
+          document.getElementById('logoutBtn').addEventListener('click', () => {
+            auth.signOut().then(() => {
+              window.location.href = 'login.html';
+            });
+          });
+        }
+      });
+    });
+  </script>
+</body>
+</html>

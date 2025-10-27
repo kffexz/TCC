@@ -1,0 +1,117 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", "Segoe UI", sans-serif;
+  }
+  
+  :root {
+    --cor-principal: #00c2a8;
+    --cor-secundaria: #00796b;
+    --cor-fundo: #0e0e0e;
+    --cor-texto: #ffffff;
+    --cor-detalhe: rgba(255, 255, 255, 0.1);
+    --radius: 18px;
+    --transicao: 0.3s ease;
+  }
+  
+  /* =========================
+     FUNDO
+  ========================= */
+  body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #000000, #00c2a8, #009688);
+    background-size: 300% 300%;
+    animation: fundoAnimado 8s ease infinite;
+    color: var(--cor-texto);
+  }
+  
+  @keyframes fundoAnimado {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  
+  /* =========================
+     CONTAINER
+  ========================= */
+  .container {
+    background: rgba(255, 255, 255, 0.08);
+    padding: 2rem;
+    border-radius: var(--radius);
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.4);
+    animation: surgir 0.7s ease forwards;
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  
+  @keyframes surgir {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* =========================
+     TÍTULOS
+  ========================= */
+  h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 0.5rem;
+  }
+  
+  #userName {
+    font-size: 1.1rem;
+    color: #ffffff;
+    margin-bottom: 1.5rem;
+    opacity: 0.9;
+  }
+  
+  /* =========================
+     BOTÃO DE SAIR
+  ========================= */
+  #logoutBtn {
+    width: 100%;
+    padding: 14px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: white;
+    background: linear-gradient(90deg, var(--cor-principal), var(--cor-secundaria));
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: var(--transicao);
+    box-shadow: 0 5px 15px rgba(0, 194, 168, 0.4);
+  }
+  
+  #logoutBtn:hover {
+    background: linear-gradient(90deg, #00e5c0, #009688);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0, 194, 168, 0.6);
+  }
+  
+  /* =========================
+     RESPONSIVIDADE
+  ========================= */
+  @media (max-width: 480px) {
+    .container {
+      padding: 1.5rem;
+    }
+    h2 {
+      font-size: 1.7rem;
+    }
+    #logoutBtn {
+      font-size: 0.95rem;
+    }
+  }
+  

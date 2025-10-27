@@ -1,0 +1,226 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", "Segoe UI", sans-serif;
+  }
+  
+  :root {
+    --cor-principal: #00ae80;
+    --cor-secundaria: #00796b;
+    --cor-fundo: #0e0e0e;
+    --cor-texto: #ffffff;
+    --cor-borda: rgba(255, 255, 255, 0.2);
+    --cor-hover: rgb(255, 255, 255);
+    --cor-selecionado: rgba(255, 255, 255, 0.3);
+    --radius: 18px;
+    --transicao: 0.3s ease;
+  }
+  
+  /* =========================
+     FUNDO E CONTAINER
+  ========================= */
+  body {
+    background: linear-gradient(92deg, #000000, #00c2a8, #009688);
+    background-size: 300% 300%;
+    animation: fundoAnimado 20s ease infinite;
+    color: var(--cor-texto);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  @keyframes fundoAnimado {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  
+  .container {
+    background: rgb(255, 255, 255);
+    padding: 2rem;
+    border-radius: var(--radius);
+    max-width: 700px;
+    width: 100%;
+    text-align: center;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    box-shadow: 0 0 25px rgb(255, 255, 255);
+    animation: surgir 0.7s ease forwards;
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  
+  @keyframes surgir {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  h2 {
+    font-size: 1.7rem;
+    font-weight: 600;
+    color: var(--cor-principal);
+    margin-bottom: 20px;
+  }
+  
+  /* =========================
+     GRID DE EQUIPAMENTOS
+  ========================= */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 15px;
+  }
+  
+  .equipamento {
+    background: rgb(255, 255, 255);
+    border: 2px solid var(--cor-borda);
+    border-radius: 15px;
+    padding: 15px;
+    cursor: pointer;
+    transition: var(--transicao);
+    text-align: center;
+  }
+  
+  .equipamento img {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    margin-bottom: 10px;
+    transition: var(--transicao);
+  }
+  
+  .equipamento p {
+    font-size: 1rem;
+    color: #000000;
+  }
+  
+  .equipamento:hover {
+    background: var(--cor-hover);
+    transform: translateY(-5px);
+    border-color: var(--cor-principal);
+  }
+  
+  .equipamento.selecionado {
+    background: var(--cor-selecionado);
+    border-color: var(--cor-principal);
+    box-shadow: 0 0 15px rgb(255, 255, 255);
+  }
+  
+  .equipamento.selecionado img {
+    transform: scale(1.1);
+  }
+  
+  /* =========================
+     BOTÃO
+  ========================= */
+  button {
+    margin-top: 20px;
+    padding: 14px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: white;
+    background: linear-gradient(90deg, var(--cor-principal), var(--cor-secundaria));
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: var(--transicao);
+    box-shadow: 0 5px 15px rgb(253, 253, 253);
+    width: 100%;
+  }
+  
+  button:hover {
+    background: linear-gradient(90deg, #009688, #009688);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0, 194, 168, 0.6);
+  }
+  
+  /* =========================
+     MODAL ALERT CENTRALIZADO
+  ========================= */
+  .modal-alert {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* centraliza */
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .modal-content {
+    background: linear-gradient(145deg, #00c2a8, #00796b);
+    color: #ffffff;
+    padding: 30px 25px;
+    border-radius: 20px;
+    text-align: center;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+    animation: popIn 0.4s ease-out;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(5px);
+  }
+  
+  .modal-content p {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-bottom: 25px;
+    line-height: 1.4;
+  }
+  
+  .modal-content button {
+    background: #ffffff;
+    color: #00796b;
+    font-weight: 600;
+    padding: 12px 28px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .modal-content button:hover {
+    background: #f0f0f0;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Animação suave do modal */
+  @keyframes popIn {
+    0% {
+      transform: translate(-50%, -50%) scale(0.7);
+      opacity: 0;
+    }
+    60% {
+      transform: translate(-50%, -50%) scale(1.05);
+      opacity: 1;
+    }
+    100% {
+      transform: translate(-50%, -50%) scale(1);
+    }
+  }
+  
+  
+  /* =========================
+     RESPONSIVIDADE
+  ========================= */
+  @media (max-width: 480px) {
+    h2 {
+      font-size: 1.4rem;
+    }
+  
+    .equipamento img {
+      width: 50px;
+      height: 50px;
+    }
+  
+    .equipamento p {
+      font-size: 0.9rem;
+    }
+  }
