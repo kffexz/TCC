@@ -3,55 +3,57 @@
     padding: 0;
     box-sizing: border-box;
     font-family: "Poppins", "Segoe UI", sans-serif;
-  }
-  
-  :root {
+}
+
+:root {
     --cor-principal: #00c2a8;
     --cor-secundaria: #00796b;
     --cor-fundo: #0e0e0e;
     --cor-texto: #ffffff;
     --cor-detalhe: rgba(255, 255, 255, 0.1);
-    --radius: 18px;
+    --radius: 12px;
+    --radius-small: 8px;
     --transicao: 0.3s ease;
-  }
-  
-  /* =========================
-     FUNDO
-  ========================= */
-  body {
-    height: 100vh;
+    --fundo-box: rgba(255, 255, 255, 0.08);
+    --fundo-item: rgba(255, 255, 255, 0.15);
+}
+
+/* ================================================= */
+/* FUNDO E BODY (Fundo Animado) */
+/* ================================================= */
+
+body {
+    min-height: 100vh;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    background: linear-gradient(135deg, #000000, #00c2a8, #009688);
+    background: linear-gradient(135deg, #000000, var(--cor-principal), #009688);
     background-size: 300% 300%;
     animation: fundoAnimado 8s ease infinite;
     color: var(--cor-texto);
-  }
-  
-  @keyframes fundoAnimado {
+    padding-bottom: 70px;
+}
+
+@keyframes fundoAnimado {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
-  }
-  
-  /* =========================
-     CONTAINER
-  ========================= */
-  .container {
-    background: rgba(255, 255, 255, 0.08);
-    padding: 2rem;
-    border-radius: var(--radius);
-    width: 90%;
-    max-width: 400px;
-    text-align: center;
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    box-shadow: 0 0 25px rgba(0, 0, 0, 0.4);
-    animation: surgir 0.7s ease forwards;
-    opacity: 0;
-    transform: translateY(20px);
-  }
+}
+
+/* ================================================= */
+/* CONTAINER E FORM-BOX (Layout Principal) */
+/* ================================================= */
+ .container {
+  background: #1a1a1a;
+  padding: 40px 30px;
+  border-radius: 20px;
+  text-align: center;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 0 15px #02d1bcd6;
+  animation: fadeIn 0.8s ease-in-out;
+  backdrop-filter: blur(5px);
+}
   
   @keyframes surgir {
     to {
@@ -60,63 +62,185 @@
     }
   }
   
-  /* =========================
-     TÍTULOS
-  ========================= */
-  h2 {
-    font-size: 2rem;
-    font-weight: 700;
-    color: #ffffff;
-    margin-bottom: 0.5rem;
-  }
-  
-  #userName {
-    font-size: 1.1rem;
-    color: #ffffff;
-    margin-bottom: 1.5rem;
-    opacity: 0.9;
-  }
-  
-  /* =========================
-     BOTÃO DE SAIR
-  ========================= */
-  #logoutBtn, #editEquipamentosBtn, #editarPerfilBtn {
+.form-box {
+    background: var(--fundo-box);
+    padding: 20px;
+    border-radius: var(--radius);
     width: 100%;
-    padding: 14px;
-    font-size: 1rem;
-    font-weight: 600;
-    color: white;
-    background: linear-gradient(90deg, var(--cor-principal), var(--cor-secundaria));
-    border: none;
-    border-radius: 12px;
+    box-sizing: border-box;
+    margin: 0 auto;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+@keyframes surgir {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--cor-principal);
+    margin-bottom: 1rem;
+}
+
+/* Informação de Dificuldade */
+#dificuldadeInfo {
+    margin: 15px 0;
+    padding: 10px;
+    background-color: var(--cor-detalhe);
+    border-radius: 6px;
+    text-align: center;
+    font-size: 0.95em;
+    line-height: 1.4;
+}
+
+#dificuldadeInfo span {
+    color: yellow;
+    font-weight: 700;
+}
+
+#dificuldadeInfo a {
+    color: yellow;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+/* ================================================= */
+/* ESTILOS DE GRID DE MÚSCULOS (NOVO) */
+/* ================================================= */
+
+.muscle-grid {
+    display: grid;
+    /* 3 colunas para dispositivos maiores, 2 para o celular (ver @media) */
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 15px;
+    padding: 20px 0;
+}
+
+.muscle-button {
+    background-color: var(--fundo-item);
+    padding: 15px 10px;
+    border-radius: var(--radius-small);
     cursor: pointer;
     transition: var(--transicao);
-    box-shadow: 0 5px 15px rgba(0, 194, 168, 0.4);
-  }
-  
-  #logoutBtn:hover, #editEquipamentosBtn:hover,  #editarPerfilBtn:hover  {
-    background: linear-gradient(90deg, #00e5c0, #009688);
-    transform: translateY(-3px);
-    box-shadow: 0 10px 25px rgba(0, 194, 168, 0.6);
-  }
-  
-  /* =========================
-     RESPONSIVIDADE
-  ========================= */
-  @media (max-width: 480px) {
-    .container {
-      padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    min-height: 120px; 
+    justify-content: center;
+    user-select: none; /* Evita que o texto seja selecionado ao clicar */
+}
+
+@media (min-width: 450px) {
+    .muscle-grid {
+        grid-template-columns: repeat(3, 1fr);
     }
-    h2 {
-      font-size: 1.7rem;
-    }
-    #logoutBtn {
-      font-size: 0.95rem;
-    }
-  }
-  
+}
 
 
+.muscle-button:hover {
+    background-color: rgba(255, 255, 255, 0.25);
+    transform: translateY(-2px);
+}
+
+.muscle-button.active {
+    background: linear-gradient(135deg, var(--cor-principal), var(--cor-secundaria));
+    box-shadow: 0 4px 10px rgba(0, 194, 168, 0.5);
+    color: #000000; 
+    font-weight: bold;
+}
+
+.muscle-button img {
+    width: 60px; 
+    height: 60px;
+    object-fit: contain;
+    margin-bottom: 5px;
+    /* Filtro para ícones serem visíveis no fundo escuro */
+    
+}
+
+.muscle-button.active img {
+    /* Ajuste de cor do ícone para o botão ativo */
+    filter: none; 
+}
+
+.muscle-button span {
+    font-size: 0.95em;
+    margin-top: 5px;
+    color: var(--cor-texto); /* Garante que o texto seja branco (ou a cor padrão) */
+}
+
+.muscle-button.active span {
+    color: #000000; /* Texto preto no botão ativo */
+}
+
+
+/* ================================================= */
+/* CONTEÚDO DO TREINO (Substitui o tab-content/accordion) */
+/* ================================================= */
+
+/* Conteúdo do Treino */
+#treinoConteudo {
+    display: none;
+    padding: 20px;
+    border-top: none;
+    background-color: var(--fundo-box);
+    border-radius: var(--radius-small);
+    overflow: hidden;
+    text-align: left;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    margin-top: 20px;
+    /* Adiciona uma transição suave para aparecer */
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+#treinoConteudo.active {
+    display: block;
+    opacity: 1;
+}
+
+/* Item de Exercício */
+.exercise-item {
+    background-color: var(--fundo-item);
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    color: var(--cor-texto);
+    font-size: 0.9em;
+    line-height: 1.5;
+    border-left: 4px solid var(--cor-principal);
+    transition: background-color 0.2s;
+}
+
+.exercise-item:hover {
+    background-color: rgba(255, 255, 255, 0.25);
+}
+
+.exercise-item strong {
+    color: var(--cor-principal);
+    font-size: 1.05em;
+    display: block;
+    margin-bottom: 5px;
+}
+
+/* Estilo do Vídeo */
+.video-container {
+    margin-top: 15px;
+}
+.video-container video {
+    width: 100%;
+    border-radius: 4px;
+    display: block;
+}
 
 /* ================================================= */
 /* BARRA DE NAVEGAÇÃO INFERIOR */
