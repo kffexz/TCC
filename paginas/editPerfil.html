@@ -29,11 +29,15 @@
 
       <form id="dadosForm">
 
-<input type="number" id="altura" placeholder="Altura (cm)" required onkeydown="if (event.key === '-' || event.key === 'e' || event.key === 'E') event.preventDefault();">
+        <input type="text" id="cadNome" placeholder="Nome de usuário"><br>
+        <input type="number" id="altura" placeholder="Altura (cm)" required
+          onkeydown="if (event.key === '-' || event.key === 'e' || event.key === 'E') event.preventDefault();">
 
-<input type="number" id="peso" placeholder="Peso (kg)" required onkeydown="if (event.key === '-' || event.key === 'e' || event.key === 'E') event.preventDefault();">
+        <input type="number" id="peso" placeholder="Peso (kg)" required
+          onkeydown="if (event.key === '-' || event.key === 'e' || event.key === 'E') event.preventDefault();">
 
-<input type="number" id="idade" placeholder="Idade" required onkeydown="if (event.key === '-' || event.key === 'e' || event.key === 'E') event.preventDefault();">
+        <input type="number" id="idade" placeholder="Idade" required
+          onkeydown="if (event.key === '-' || event.key === 'e' || event.key === 'E') event.preventDefault();">
 
 
         <select id="objetivo" required>
@@ -105,6 +109,7 @@
             document.getElementById('userName').textContent = "Nome do usuário: " + (user.displayName || "Sem nome");
 
             // Preenche os campos do formulário
+            document.getElementById('cadNome').value = user.displayName || "";
             document.getElementById('altura').value = dados.altura || "";
             document.getElementById('peso').value = dados.peso || "";
             document.getElementById('idade').value = dados.idade || "";
@@ -120,33 +125,56 @@
 
     // Salvar dados usando update() para não apagar equipamentos
     form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const altura = document.getElementById('altura').value;
-      const peso = document.getElementById('peso').value;
-      const idade = document.getElementById('idade').value;
-      const objetivo = document.getElementById('objetivo').value;
-      const genero = document.getElementById('genero').value;
+  e.preventDefault();
 
-      const user = auth.currentUser;
-      if (user) {
-        db.collection('usuarios').doc(user.uid).update({
-          altura,
-          peso,
-          idade,
-          objetivo,
-          genero
-        })
-          .then(() => {
-            showCustomAlert('Dados salvos com sucesso!', () => {
-              window.location.href = 'perfil.html';
-            });
-          })
-          .catch(err => {
-            console.error(err);
-            showCustomAlert('Erro ao salvar dados. Veja o console.');
-          });
-      }
+  const cadNome = document.getElementById('cadNome').value.trim();
+  const altura = document.getElementById('altura').value ? Number(document.getElementById('altura').value) : null;
+  const peso = document.getElementById('peso').value ? Number(document.getElementById('peso').value) : null;
+  const idade = document.getElementById('idade').value ? Number(document.getElementById('idade').value) : null;
+  const objetivo = document.getElementById('objetivo').value;
+  const genero = document.getElementById('genero').value;
+
+  // Validação simples (exemplo)
+  if (!cadNome) {
+    showCustomAlert('Informe o nome antes de salvar.');
+    return;
+  }
+
+  const user = auth.currentUser;
+  if (!user) {
+    showCustomAlert('Usuário não autenticado.');
+    return;
+  }
+
+  const userRef = db.collection('usuarios').doc(user.uid);
+
+  // Primeiro atualiza o Firestore
+  userRef.update({
+    cadNome,
+    altura,
+    peso,
+    idade,
+    objetivo,
+    genero
+  })
+  .then(() => {
+    // Depois atualiza o displayName no Auth (isso faz o user.displayName mudar)
+    return user.updateProfile({ displayName: cadNome });
+  })
+  .then(() => {
+    // Atualiza o DOM imediatamente (sem recarregar)
+    document.getElementById('userName').textContent = "Nome do usuário: " + (auth.currentUser.displayName || cadNome);
+
+    showCustomAlert('Dados salvos com sucesso!', () => {
+      window.location.href = 'perfil.html';
     });
+  })
+  .catch(err => {
+    console.error('Erro ao salvar/atualizar:', err);
+    showCustomAlert('Erro ao salvar dados. Veja o console para mais detalhes.');
+  });
+});
+
 
     // Logout
     document.getElementById('logoutBtn').addEventListener('click', () => {
