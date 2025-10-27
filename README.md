@@ -1,1 +1,1 @@
-Para testar o site, acesse o link: https://tccgymwarriors.netlify.app/
+Para usar o aplicativo, acesse https://tccgymwarriors.netlify.app/
