@@ -38,20 +38,17 @@
   /* =========================
      CONTAINER
   ========================= */
-  .container {
-    background: rgba(255, 255, 255, 0.08);
-    padding: 2rem;
-    border-radius: var(--radius);
-    width: 90%;
-    max-width: 400px;
-    text-align: center;
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    box-shadow: 0 0 25px rgba(0, 0, 0, 0.4);
-    animation: surgir 0.7s ease forwards;
-    opacity: 0;
-    transform: translateY(20px);
-  }
+ .container {
+  background: #1a1a1a;
+  padding: 40px 30px;
+  border-radius: 20px;
+  text-align: center;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 0 15px #02d1bcd6;
+  animation: fadeIn 0.8s ease-in-out;
+  backdrop-filter: blur(5px);
+}
   
   @keyframes surgir {
     to {
