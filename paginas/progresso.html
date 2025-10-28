@@ -4,10 +4,11 @@
 <head>
   <meta charset="UTF-8">
   <link rel="icon" type="image/png" href="../assets/logo.png">
+  <link rel="stylesheet" href="style/progresso.css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gym Warriors - Home</title>
+  <title>Gym Warriors - Progresso</title>
 
-  <link rel="stylesheet" href="style/home.css">
+  
 
   <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -66,6 +67,16 @@
     const auth = firebase.auth();
     const db = firebase.firestore();
 
+   // =============================
+    // VERIFICA O LOGIN
+    // =============================
+
+      auth.onAuthStateChanged(user => {
+    if (!user) {
+      // Usuário não logado → redireciona para login
+      window.location.href = 'login.html';
+    }
+  });
     // =============================
     // LOGIN / LOGOUT
     // =============================

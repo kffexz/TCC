@@ -4,10 +4,9 @@
 <head>
   <meta charset="UTF-8">
   <link rel="icon" type="image/png" href="../assets/logo.png">
+  <link rel="stylesheet" href="style/home.css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gym Warriors - Home</title>
-
-  <link rel="stylesheet" href="style/home.css">
 
   <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -16,47 +15,102 @@
 </head>
 
 <body>
-  <div class="container" id="conteudo">
-    <div class="form-box">
-      <h2>Bem-vindo!</h2>
-      <p id="userName">Carregando...</p>
-      <button id="logoutBtn" style="margin-top: 10px;">Sair</button>
-    </div>
-  </div>
+  <main class="container">
+    <!-- 👋 Boas-vindas -->
+    <section class="welcome">
+      <h1>Bem-vindo, <span class="nome" id="userName">...</span>!</h1>
+      <br>
+    <p style = "font-size: 1.4rem; ">Vamos treinar hoje? 💪</p> <br>
+    </section>
 
-<!-- 🟢 Barra de Navegação Inferior -->
-<nav class="tab-bar">
-  <a href="home.html" style="text-decoration: none;" class="tab active">
-    <ion-icon name="home-outline"></ion-icon>
-    <span>Home</span>
-  </a>
-  <a href="treinos.html" style="text-decoration: none;" class="tab">
-    <ion-icon name="barbell-outline"></ion-icon>
-    <span>Treinos</span>
-  </a>
-  <a href="progresso.html" style="text-decoration: none;" class="tab">
-    <ion-icon name="stats-chart-outline"></ion-icon>
-    <span>Progresso</span>
-  </a>
-  <a href="perfil.html" style="text-decoration: none;" class="tab">
-    <ion-icon name="person-outline"></ion-icon>
-    <span>Perfil</span>
-  </a>
-</nav>
+    <!-- 🏋️ Treino do dia -->
+    <section class="treino-dia">
+      <h2>Treino do Dia</h2>
+      
+      
+       <button  class="button" onclick="window.location.href='treinos.html'">Ver Treinos</button><br>
+
+    
+    </section><br>
+
+    <!-- 📊 Resumo de progresso -->
+    <section class="progresso">
+      <h2>Seu progresso</h2>
+      <div class="progress-card">
+        <p>estamos trabalhando nisso... </p>
+        <div class="progress-bar">
+          <div id="progressFill" style="width: 0%;"></div>
+        </div>
+      </div>
+    </section>
+<br>
+ <!-- 🎯 Motivação / Dicas -->
+<section class="motivacao">
+  <h2>Dica do dia</h2>
+  <p id="dicaDia">Carregando dica...</p>
+</section>
+
+  </main>
+
+  <!-- 🟢 Barra de Navegação Inferior -->
+  <nav class="tab-bar">
+    <a href="home.html" class="tab active">
+      <ion-icon name="home-outline"></ion-icon>
+      <span>Home</span>
+    </a>
+    <a href="treinos.html" class="tab">
+      <ion-icon name="barbell-outline"></ion-icon>
+      <span>Treinos</span>
+    </a>
+    <a href="progresso.html" class="tab">
+      <ion-icon name="stats-chart-outline"></ion-icon>
+      <span>Progresso</span>
+    </a>
+    <a href="perfil.html" class="tab">
+      <ion-icon name="person-outline"></ion-icon>
+      <span>Perfil</span>
+    </a>
+  </nav>
 
   <!-- Ícones do Ionic -->
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 
   <script>
+
+    //DICAS
+
     // =============================
-    // CONFIGURAÇÃO FIREBASE
+// 🔹 DICAS DO DIA (aleatórias)
+// =============================
+const dicas = [
+  "Mantenha boa postura durante os exercícios e hidrate-se!",
+  "Faça alongamentos antes e depois do treino.",
+  "Durma bem — o descanso é essencial para o crescimento muscular.",
+  "A constância é mais importante que a intensidade!",
+  "Evite treinar o mesmo grupo muscular dois dias seguidos.",
+  "Controle a respiração: inspire ao descer e expire ao subir.",
+  "Aumente as cargas gradualmente para evitar lesões.",
+  "A alimentação representa 70% dos seus resultados.",
+  "Treine com foco na execução, não apenas no peso.",
+  "Não pule o aquecimento — ele prepara seu corpo e evita lesões.",
+  "Mantenha-se hidratado durante todo o treino.",
+  "O progresso vem com paciência — não desista!"
+];
+
+// Seleciona uma dica com base na data (assim muda a cada dia)
+const indiceDia = new Date().getDate() % dicas.length;
+document.getElementById("dicaDia").textContent = dicas[indiceDia];
+
+
+    // =============================
+    // 🔹 CONFIGURAÇÃO FIREBASE
     // =============================
     const firebaseConfig = {
       apiKey: "AIzaSyAbVJUTwovjKHua6OWP_yIncKYytEEwPfo",
       authDomain: "tcc-994f7.firebaseapp.com",
       projectId: "tcc-994f7",
-      storageBucket: "tcc-994f7.firebasestorage.app",
+      storageBucket: "tcc-994f7.appspot.com",
       messagingSenderId: "848443566233",
       appId: "1:848443566233:web:b9be3b2beccb027fa53008",
       measurementId: "G-SGB2LYMT17"
@@ -67,47 +121,21 @@
     const db = firebase.firestore();
 
     // =============================
-    // LOGIN / LOGOUT
+    // 🔹 AUTENTICAÇÃO
     // =============================
-    auth.onAuthStateChanged(user => {
-      if (user) {
-        document.getElementById('userName').textContent =
-          "Nome do usuário: " + (user.displayName || "Sem nome");
-      } else {
-        window.location.href = 'login.html';
-      }
+    auth.onAuthStateChanged(async user => {
+      if (!user) return window.location.href = 'login.html';
+
+      document.getElementById('userName').textContent = user.displayName || "Sem nome";
+
+      // Exemplo de progresso
+      const progresso = await db.collection("usuarios").doc(user.uid)
+        .collection("progresso").get();
+      const completados = progresso.size;
+      document.getElementById('exerciciosFeitos').textContent = completados;
+      document.getElementById('progressFill').style.width = `${Math.min(completados * 10, 100)}%`;
     });
 
-    document.getElementById('logoutBtn').addEventListener('click', () => {
-      auth.signOut().then(() => {
-        window.location.href = 'login.html';
-      });
-    });
-
-    // =============================
-    // NAVEGAÇÃO ENTRE ABAS
-    // =============================
-    const tabs = document.querySelectorAll('.tab');
-    const conteudo = document.getElementById('conteudo');
-
-    tabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        tabs.forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
-
-        const nomeAba = tab.dataset.tab;
-        conteudo.innerHTML = paginas[nomeAba];
-
-        // Reatribuir o botão de logout quando for Home
-        if (nomeAba === 'home') {
-          document.getElementById('logoutBtn').addEventListener('click', () => {
-            auth.signOut().then(() => {
-              window.location.href = 'login.html';
-            });
-          });
-        }
-      });
-    });
   </script>
 </body>
 </html>

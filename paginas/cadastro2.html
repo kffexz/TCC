@@ -53,10 +53,10 @@
           <option value="" disabled selected>Gênero</option>
           <option value="Masculino">Masculino</option>
           <option value="Feminino">Feminino</option>
-        </select><br>
+        </select><br> <br>
 
         <button type="submit">Salvar dados</button>
-        <button id="logoutBtn" style="margin-top: 10px;">Sair</button>
+        
       </form>
     </div>
   </div>
@@ -118,13 +118,6 @@
             showCustomAlert('Erro ao salvar dados. Veja o console.');
           });
       }
-    });
-
-    // Logout
-    document.getElementById('logoutBtn').addEventListener('click', () => {
-      auth.signOut().then(() => {
-        window.location.href = 'login.html';
-      });
     });
 
     // ✅ Funções do modal personalizado

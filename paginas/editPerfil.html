@@ -59,7 +59,6 @@
         </select><br><br>
 
         <button type="submit">Salvar dados</button>
-        <button type="button" id="logoutBtn" style="margin-top: 10px;">Sair</button>
       </form>
     </div>
   </div>
@@ -176,10 +175,7 @@
 });
 
 
-    // Logout
-    document.getElementById('logoutBtn').addEventListener('click', () => {
-      auth.signOut().then(() => window.location.href = 'login.html');
-    });
+  
 
     // Modal personalizado
     let customAlertCallback = null;

@@ -22,9 +22,12 @@
                 <p><strong>Altura:</strong> <span id="perfilAltura">Carregando...</span></p>
                 <p><strong>Objetivo:</strong> <span id="perfilObjetivo">Carregando...</span></p>
                 <p><strong>Equipamentos:</strong> <span id="perfilEquipamentos">Carregando...</span></p><br />
-                <button id="editEquipamentosBtn">Editar Equipamentos</button> <br> <br>
 
+                <button id="editEquipamentosBtn">Editar Equipamentos</button> 
                 <button id="editarPerfilBtn">Editar Perfil</button>
+                
+                <!-- Botão de Logout -->
+                <button id="logoutBtn" style="margin-top: 20px;">Sair da Conta</button>
             </div>
         </div>
     </div>
@@ -90,9 +93,8 @@
                                 document.getElementById("perfilEquipamentos").textContent = "Nenhum equipamento selecionado";
                             }
                         } else {
-                            document.querySelector(".perfil-info").innerHTML = "<p style='font-family: 'Poppins''><strong>Dados não encontrados.</p><br><p>Por favor, termine de realizar seu <a href='cadastro2.html' style='color: #1A1A1A; text-decoration: none'><strong>cadastro</strong> </a></strong><p>";
-                        }// roger da a bunda todo dia  de manha sim ou nao? 
-                        // demaaaiss
+                            document.querySelector(".perfil-info").innerHTML = "<p style='font-family: Poppins;'><strong>Dados não encontrados.</strong></p><br><p>Por favor, termine de realizar seu <a href='cadastro2.html' style='text-decoration:none; color: #FFFF;'><strong>cadastro</strong></a></p>";
+                        }
                     })
                     .catch((err) => {
                         console.error("Erro ao buscar dados do usuário:", err);
@@ -103,25 +105,22 @@
         });
 
         // Botão editar equipamentos
-        const editarBtn = document.getElementById("editEquipamentosBtn");
-        if (editarBtn) {
-            editarBtn.addEventListener("click", () => {
-                window.location.href = "cadastro3.html";
-            });
-        }
+        document.getElementById("editEquipamentosBtn")?.addEventListener("click", () => {
+            window.location.href = "cadastro3.html";
+        });
 
-        // Botão editar equipamentos
-        const editarpfBtn = document.getElementById("editarPerfilBtn");
-        if (editarpfBtn) {
-            editarpfBtn.addEventListener("click", () => {
-                window.location.href = "editPerfil.html";
-            });
-        }
+        // Botão editar perfil
+        document.getElementById("editarPerfilBtn")?.addEventListener("click", () => {
+            window.location.href = "editPerfil.html";
+        });
+
+        // Botão logout
+        document.getElementById("logoutBtn")?.addEventListener("click", () => {
+            auth.signOut().then(() => window.location.href = "login.html");
+        });
 
         // Correção do erro "tabs is not defined"
-        // Definindo e usando a variável tabs para a barra de navegação
         const tabs = document.querySelectorAll(".tab");
-
         tabs.forEach((tab) => {
             tab.addEventListener("click", () => {
                 tabs.forEach((t) => t.classList.remove("active"));

@@ -1,165 +1,243 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Poppins", "Segoe UI", sans-serif;
-  }
-  
-  :root {
-    --cor-principal: #00c2a8;
-    --cor-secundaria: #00796b;
-    --cor-fundo: #0e0e0e;
-    --cor-texto: #ffffff;
-    --cor-detalhe: rgba(255, 255, 255, 0.1);
-    --radius: 18px;
-    --transicao: 0.3s ease;
-  }
-  
-  /* =========================
-     FUNDO
-  ========================= */
-  body {
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: linear-gradient(135deg, #000000, #00c2a8, #009688);
-    background-size: 300% 300%;
-    animation: fundoAnimado 8s ease infinite;
-    color: var(--cor-texto);
-  }
-  
-  @keyframes fundoAnimado {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
-  
-  /* =========================
-     CONTAINER
-  ========================= */
- .container {
-  background: #1a1a1a;
-  padding: 40px 30px;
-  border-radius: 20px;
-  text-align: center;
-  width: 100%;
-  max-width: 400px;
-  box-shadow: 0 0 15px #02d1bcd6;
-  animation: fadeIn 0.8s ease-in-out;
-  backdrop-filter: blur(5px);
-}
-  
-  @keyframes surgir {
-    to {
-      opacity: 1;
-      transform: translateY(0);
+/* ===========================================
+       ⚡ GYM WARRIORS - PERFIL
+    =========================================== */
+    
+    :root {
+      --cor-fundo: #0b0b0b;
+      --cor-container: rgba(25, 25, 25, 0.9);
+      --cor-principal: #00ffcc;
+      --cor-secundaria: #00bfa6;
+      --cor-texto: #ffffff;
+      --cor-borda: rgba(255, 255, 255, 0.1);
+      --sombra: 0 0 20px rgba(0, 255, 204, 0.25);
+      --cor-destaque: #00f5d4;
     }
-  }
-  
-  /* =========================
-     TÍTULOS
-  ========================= */
-  h2 {
-    font-size: 2rem;
-    font-weight: 700;
-    color: #ffffff;
-    margin-bottom: 0.5rem;
-  }
-  
-  #userName {
-    font-size: 1.1rem;
-    color: #ffffff;
-    margin-bottom: 1.5rem;
-    opacity: 0.9;
-  }
-  
-  /* =========================
-     BOTÃO DE SAIR
-  ========================= */
-  #logoutBtn, #editEquipamentosBtn, #editarPerfilBtn {
-    width: 100%;
-    padding: 14px;
-    font-size: 1rem;
-    font-weight: 600;
-    color: white;
-    background: linear-gradient(90deg, var(--cor-principal), var(--cor-secundaria));
-    border: none;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: var(--transicao);
-    box-shadow: 0 5px 15px rgba(0, 194, 168, 0.4);
-  }
-  
-  #logoutBtn:hover, #editEquipamentosBtn:hover,  #editarPerfilBtn:hover  {
-    background: linear-gradient(90deg, #00e5c0, #009688);
-    transform: translateY(-3px);
-    box-shadow: 0 10px 25px rgba(0, 194, 168, 0.6);
-  }
-  
-  /* =========================
-     RESPONSIVIDADE
-  ========================= */
-  @media (max-width: 480px) {
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+    
+    /* ===========================================
+       🌌 BODY
+    =========================================== */
+    body {
+      min-height: 100vh;
+     background: radial-gradient(circle at 50% 30%, #1b9d94, #000);
+      color: var(--cor-texto);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-bottom: 100px;
+    }
+    
+    /* ===========================================
+       🧱 CONTAINER PERFIL
+    =========================================== */
     .container {
-      padding: 1.5rem;
+      width: 95%;
+      max-width: 480px;
+      margin-top: 2rem;
     }
+    
+    .form-box {
+      background: var(--cor-container);
+      backdrop-filter: blur(15px);
+      border-radius: 25px;
+      border: 1px solid var(--cor-borda);
+      padding: 2rem 1.5rem;
+      box-shadow: var(--sombra);
+      transition: all 0.3s ease;
+    }
+    
+    .form-box:hover {
+      transform: scale(1.02);
+      box-shadow: 0 0 30px rgba(0, 255, 204, 0.3);
+    }
+    
+    /* ===========================================
+       🏷️ TÍTULOS
+    =========================================== */
     h2 {
-      font-size: 1.7rem;
+      text-align: center;
+      color: var(--cor-principal);
+      margin-bottom: 2rem;
+      text-shadow: 0 0 10px rgba(0, 255, 204, 0.4);
     }
-    #logoutBtn {
-      font-size: 0.95rem;
+    
+    /* ===========================================
+       📄 INFORMAÇÕES DE PERFIL (ALINHAMENTO MELHORADO)
+    =========================================== */
+    .perfil-info {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
     }
-  }
-  
+    
+    .perfil-info p {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--cor-borda);
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-size: 1rem;
+      color: var(--cor-texto);
+      line-height: 1.4;
+      transition: background 0.3s ease;
+    }
+    
+    .perfil-info p:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+    
+    .perfil-info strong {
+      flex: 0 0 35%;
+      text-align: left;
+      color: var(--cor-principal);
+      font-weight: 600;
+    }
+    
+    .perfil-info span {
+      flex: 1;
+      text-align: center;
+      color: #d1d1d1;
+      font-weight: 500;
+      word-break: break-word;
+    }
+    
+    /* ===========================================
+       🧩 BOTÕES
+    =========================================== */
+    .perfil-info button {
+      width: 100%;
+      margin-top: 15px;
+      padding: 12px;
+      font-weight: 600;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: var(--sombra);
+    }
+    
+    #editEquipamentosBtn {
+      background: linear-gradient(90deg, var(--cor-principal), var(--cor-secundaria));
+      color: #000;
+    }
+    
+    #editarPerfilBtn {
+      background: linear-gradient(90deg, var(--cor-principal), var(--cor-secundaria));
+      color: #000;
+    }
+    
+    .perfil-info button:hover {
+      transform: translateY(-3px) scale(1.03);
+    }
+    
 
+    
+/* ===================================
+   🚪 BOTÃO SAIR
+=================================== */
+#logoutBtn {
+  color: white;
+  background: #e53935;
+  box-shadow: 0 0 15px rgba(229, 57, 53, 0.3);
+}
 
+#logoutBtn:hover {
+  background: #d32f2f;
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(229, 57, 53, 0.5);
+}
 
-/* ================================================= */
-/* BARRA DE NAVEGAÇÃO INFERIOR */
-/* ================================================= */
-
+/* ===================================
+   ⚡ BARRA DE NAVEGAÇÃO INFERIOR
+=================================== */
 .tab-bar {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 70px;
-    background-color: #111;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    border-top: 1px solid #333;
-    box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.5);
-    z-index: 1000;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(15, 15, 15, 0.9);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 10px 0;
+  box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.8);
+  z-index: 999;
 }
 
 .tab {
-    background: none;
-    border: none;
-    color: #aaa;
-    font-size: 0.75em;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    cursor: pointer;
-    flex: 1;
-    padding: 5px;
-    transition: var(--transicao);
-    text-decoration: none;
+  flex: 1;
+  text-align: center;
+  color: var(--cor-placeholder);
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .tab ion-icon {
-    font-size: 24px;
-    margin-bottom: 3px;
-    transition: color var(--transicao);
+  font-size: 1.8rem;
+  margin-bottom: 4px;
+  transition: all 0.3s ease;
 }
 
+/* Aba ativa com efeito “neon pulse” */
 .tab.active {
-    color: var(--cor-principal);
+  color: var(--cor-principal);
+  transform: translateY(-3px);
+  animation: pulse 1.5s infinite;
 }
 
+.tab.active ion-icon {
+  color: var(--cor-principal);
+  transform: scale(1.2);
+  filter: drop-shadow(0 0 6px var(--cor-principal));
+}
+
+@keyframes pulse {
+  0%, 100% { text-shadow: 0 0 5px var(--cor-principal); }
+  50% { text-shadow: 0 0 15px var(--cor-principal); }
+}
+
+/* Hover */
 .tab:hover {
-    color: var(--cor-principal);
-    background-color: rgba(255, 255, 255, 0.05);
+  color: var(--cor-destaque);
+  transform: translateY(-3px);
+}
+
+.tab:hover ion-icon {
+  color: var(--cor-destaque);
+  transform: scale(1.1);
+}
+
+
+/* ===========================================
+   📱 RESPONSIVIDADE
+=========================================== */
+@media (max-width: 500px) {
+  .container {
+    padding: 1.5rem 1rem;
+  }
+
+  h1 {
+    font-size: 1.7rem;
+  }
+
+  h2 {
+    font-size: 1rem;
+  }
+
+  #exerciciosContainer p {
+    font-size: 0.9rem;
+  }
 }
