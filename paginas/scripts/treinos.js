@@ -333,7 +333,7 @@ function closeCustomAlert() {
         <p>Equipamento: ${ex.equipamento}</p>
         <p>Foco: ${ex.foco.join(", ")}</p>
         <p><strong>${series} séries de ${repeticoes} repetições</strong></p>
-        <button id="btnRealizar">Finali Exercício</button>
+        <button id="btnRealizar">Finalizar Exercício</button>
         <button id="btnVoltar">Voltar</button>
       `;
 
