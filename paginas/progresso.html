@@ -1,120 +1,57 @@
-
 <!DOCTYPE html>
 <html lang="pt-br">
 
 <head>
-    <meta charset="UTF-8">
-    <link rel="icon" type="image/png" href="../assets/logo.png">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gym Warriors - Treinos</title>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="../assets/logo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gym Warriors - Home</title>
 
-    <link rel="stylesheet" href="style/treinos.css">
-
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-
-    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-
-
-    <nav class="tab-bar">
-        <a href="home.html" style="text-decoration: none;" class="tab">
-            <ion-icon name="home-outline"></ion-icon>
-            <span>Home</span>
-        </a>
-        <a href="treinos.html" style="text-decoration: none;" class="tab">
-            <ion-icon name="barbell-outline"></ion-icon>
-            <span>Treinos</span>
-        </a>
-        <a href="progresso.html" style="text-decoration: none;" class="tab active">
-            <ion-icon name="stats-chart-outline"></ion-icon>
-            <span>Progresso</span>
-        </a>
-        <a href="perfil.html" style="text-decoration: none;" class="tab">
-            <ion-icon name="person-outline"></ion-icon>
-            <span>Perfil</span>
-        </a>
-    </nav>
-
-     <!DOCTYPE html>
-<html lang="pt-br">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gym Warriors - Controle de Treino</title>
+  <link rel="stylesheet" href="style/home.css">
 
   <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-
-  <style>
-    body {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      background-color: #0b0b0b;
-      color: white;
-      font-family: Arial, sans-serif;
-    }
-
-    #cronometro {
-      font-size: 3rem;
-      margin: 20px 0;
-      color: #ffffff;
-    }
-
-    button {
-      padding: 12px 25px;
-      margin: 5px;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      font-size: 1rem;
-      transition: transform 0.2s ease;
-    }
-
-    button:hover {
-      transform: scale(1.05);
-    }
-
-    #iniciarBtn {
-      background-color: #00c2a8;
-      color: white;
-    }
-
-    #finalizarBtn {
-      background-color: #e53935;
-      color: white;
-    }
-
-    p {
-      margin: 5px 0;
-    }
-  </style>
 </head>
 
 <body>
-  <img src="../assets/logo.png" alt="Logo" style="width: 150px; margin-bottom: 10px;" />
-  <h2 style="color: white ;">Controle de Treino</h2>
-
-  <p id="cronometro">00:00:00</p>
-
-  <div>
-    <button id="iniciarBtn">Iniciar Treino</button>
-    <button id="finalizarBtn">Finalizar Treino</button>
+  <div class="container" id="conteudo">
+    <div class="form-box">
+      <h2>Progresso</h2><br>
+      <p>Estamos trabalhando nisso...</p>
+      
+    </div>
   </div>
 
-  <p id="totalTreinos">Total de treinos: 0</p>
-  <p id="ultimoTempo">Último treino: --</p>
+<!-- 🟢 Barra de Navegação Inferior -->
+<nav class="tab-bar">
+  <a href="home.html" style="text-decoration: none;" class="tab">
+    <ion-icon name="home-outline"></ion-icon>
+    <span>Home</span>
+  </a>
+  <a href="treinos.html" style="text-decoration: none;" class="tab">
+    <ion-icon name="barbell-outline"></ion-icon>
+    <span>Treinos</span>
+  </a>
+  <a href="progresso.html" style="text-decoration: none;" class="tab active">
+    <ion-icon name="stats-chart-outline"></ion-icon>
+    <span>Progresso</span>
+  </a>
+  <a href="perfil.html" style="text-decoration: none;" class="tab">
+    <ion-icon name="person-outline"></ion-icon>
+    <span>Perfil</span>
+  </a>
+</nav>
+
+  <!-- Ícones do Ionic -->
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 
   <script>
-    // ===========================
-    // 🔥 Config Firebase
-    // ===========================
+    // =============================
+    // CONFIGURAÇÃO FIREBASE
+    // =============================
     const firebaseConfig = {
       apiKey: "AIzaSyAbVJUTwovjKHua6OWP_yIncKYytEEwPfo",
       authDomain: "tcc-994f7.firebaseapp.com",
@@ -129,271 +66,41 @@
     const auth = firebase.auth();
     const db = firebase.firestore();
 
-    // ===========================
-    // ⏱️ Variáveis
-    // ===========================
-    const cronometroEl = document.getElementById('cronometro');
-    const iniciarBtn = document.getElementById('iniciarBtn');
-    const finalizarBtn = document.getElementById('finalizarBtn');
-    const totalTreinosEl = document.getElementById('totalTreinos');
-    const ultimoTempoEl = document.getElementById('ultimoTempo');
+    // =============================
+    // LOGIN / LOGOUT
+    // =============================
+ 
 
-    let intervalo = null;
-    let tempoDecorrido = 0; // segundos
-
-    // ===========================
-    // 🕒 Funções do cronômetro
-    // ===========================
-    function formatarTempo(segundos) {
-      const h = String(Math.floor(segundos / 3600)).padStart(2, '0');
-      const m = String(Math.floor((segundos % 3600) / 60)).padStart(2, '0');
-      const s = String(segundos % 60).padStart(2, '0');
-      return `${h}:${m}:${s}`;
-    }
-
-    function iniciarCronometro() {
-      if (intervalo) return; // evita duplo clique
-      intervalo = setInterval(() => {
-        tempoDecorrido++;
-        cronometroEl.textContent = formatarTempo(tempoDecorrido);
-      }, 1000);
-    }
-
-    async function finalizarCronometro() {
-      if (!intervalo) {
-        alert("Você precisa iniciar o treino primeiro!");
-        return;
-      }
-
-      clearInterval(intervalo);
-      intervalo = null;
-
-      const duracao = formatarTempo(tempoDecorrido);
-      cronometroEl.textContent = duracao;
-
-      await registrarTreino(duracao);
-
-      // Zera o cronômetro após salvar
-      tempoDecorrido = 0;
-      cronometroEl.textContent = "00:00:00";
-    }
-
-    // ===========================
-    // 💾 Salvar treino no Firebase
-    // ===========================
-    async function registrarTreino(duracao) {
-      const user = auth.currentUser;
-      if (!user) {
-        alert("Faça login primeiro!");
-        return;
-      }
-
-      const hoje = new Date().toISOString().split('T')[0];
-
-      try {
-        await db.collection('usuarios').doc(user.uid).collection('treinos').add({
-          data: hoje,
-          duracao: duracao,
-          timestamp: firebase.firestore.FieldValue.serverTimestamp()
-        });
-
-        alert(`✅ Treino finalizado! Tempo: ${duracao}`);
-        atualizarContagem();
-      } catch (e) {
-        console.error("Erro ao registrar treino:", e);
-      }
-    }
-
-    // ===========================
-    // 📊 Atualizar contador
-    // ===========================
-    async function atualizarContagem() {
-      const user = auth.currentUser;
-      if (!user) return;
-
-      const snapshot = await db.collection('usuarios').doc(user.uid).collection('treinos').get();
-      const total = snapshot.size;
-
-      totalTreinosEl.textContent = `Total de treinos: ${total}`;
-
-      if (!snapshot.empty) {
-        const ultimo = snapshot.docs[snapshot.size - 1].data();
-        ultimoTempoEl.textContent = `Último treino: ${ultimo.duracao || "--"}`;
-      }
-    }
-
-    // ===========================
-    // 🚀 Inicializar
-    // ===========================
-    function iniciarContagem() {
-      auth.onAuthStateChanged(user => {
-        if (user) {
-          atualizarContagem();
-        } else {
-          totalTreinosEl.textContent = "Faça login para acompanhar seus treinos.";
-        }
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      auth.signOut().then(() => {
+        window.location.href = 'login.html';
       });
-    }
-
-    // ===========================
-    // ⚙️ Eventos
-    // ===========================
-    iniciarBtn.addEventListener('click', iniciarCronometro);
-    finalizarBtn.addEventListener('click', finalizarCronometro);
-    window.addEventListener('load', iniciarContagem);
-
-  // ===========================
-  // 🕒 Funções do cronômetro
-  // ===========================
-  function formatarTempo(segundos) {
-    const h = String(Math.floor(segundos / 3600)).padStart(2, '0');
-    const m = String(Math.floor((segundos % 3600) / 60)).padStart(2, '0');
-    const s = String(segundos % 60).padStart(2, '0');
-    return `${h}:${m}:${s}`;
-  }
-
-  function iniciarCronometro() {
-    if (intervalo) return; // evita duplo clique
-    intervalo = setInterval(() => {
-      tempoDecorrido++;
-      cronometroEl.textContent = formatarTempo(tempoDecorrido);
-    }, 1000);
-  }
-
-  async function finalizarCronometro() {
-    if (!intervalo) {
-      alert("Você precisa iniciar o treino primeiro!");
-      return;
-    }
-
-    // Para o cronômetro
-    clearInterval(intervalo);
-    intervalo = null;
-
-    const duracao = formatarTempo(tempoDecorrido);
-    cronometroEl.textContent = duracao; // mostra antes de resetar
-
-    try {
-      await registrarTreino(duracao); // salva no Firestore
-      // Após salvar, zera o cronômetro
-      tempoDecorrido = 0;
-      cronometroEl.textContent = "00:00:00";
-    } catch (e) {
-      console.error("Erro ao salvar treino:", e);
-      alert("Erro ao salvar treino. Veja console.");
-    }
-  }
-
-  // ===========================
-  // 💾 Salvar treino no Firebase (doc por data + incremento)
-  // ===========================
-  async function registrarTreino(duracao) {
-    const user = auth.currentUser;
-    if (!user) {
-      alert("Faça login primeiro!");
-      throw new Error("Usuário não logado");
-    }
-
-    const hoje = new Date();
-    const dataKey = hoje.toISOString().split('T')[0]; // YYYY-MM-DD
-    const treinoRef = db.collection('usuarios').doc(user.uid).collection('treinos').doc(dataKey);
-    const userDocRef = db.collection('usuarios').doc(user.uid);
-
-    // Transação para salvar treino e incrementar contador do usuário (opcional)
-    try {
-      await db.runTransaction(async (tx) => {
-        const treinoSnap = await tx.get(treinoRef);
-        if (treinoSnap.exists) {
-          // Se já existe um treino no mesmo dia, atualizamos o tempo (ou podemos optar por não sobrescrever)
-          tx.update(treinoRef, {
-            duracao: duracao,
-            timestamp: firebase.firestore.FieldValue.serverTimestamp()
-          });
-          console.log("Treino do dia já existia — atualizado com nova duração.");
-        } else {
-          tx.set(treinoRef, {
-            data: dataKey,
-            duracao: duracao,
-            timestamp: firebase.firestore.FieldValue.serverTimestamp()
-          });
-          // Incrementa total de treinos no documento do usuário (cria se necessário)
-          tx.set(userDocRef, { totalTreinos: firebase.firestore.FieldValue.increment(1) }, { merge: true });
-          console.log("Treino criado e contador incrementado.");
-        }
-      });
-
-      // Atualiza UI imediatamente (sem esperar reconsulta)
-      contadorLocal = (contadorLocal || 0) + 1;
-      totalTreinosEl.textContent = `Total de treinos: ${contadorLocal}`;
-      ultimoTempoEl.textContent = `Último treino: ${duracao}`;
-
-    } catch (err) {
-      console.error("Transação falhou:", err);
-      throw err;
-    }
-  }
-
-  // ===========================
-  // 📊 Atualizar contador e último tempo (consulta robusta)
-  // ===========================
-  async function atualizarContagem() {
-    const user = auth.currentUser;
-    if (!user) return;
-
-    try {
-      // 1) Pega totalTreinos do documento do usuário (se existir)
-      const userDoc = await db.collection('usuarios').doc(user.uid).get();
-      if (userDoc.exists && userDoc.data().totalTreinos != null) {
-        contadorLocal = userDoc.data().totalTreinos;
-      } else {
-        // fallback: conta documentos na subcollection
-        const snapAll = await db.collection('usuarios').doc(user.uid).collection('treinos').get();
-        contadorLocal = snapAll.size;
-        // opcional: atualiza o campo totalTreinos no userDoc para consistência
-        await db.collection('usuarios').doc(user.uid).set({ totalTreinos: contadorLocal }, { merge: true });
-      }
-      totalTreinosEl.textContent = `Total de treinos: ${contadorLocal}`;
-
-      // 2) Pega o último treino ordenando por timestamp desc
-      const ultimoSnap = await db.collection('usuarios').doc(user.uid)
-                          .collection('treinos')
-                          .orderBy('timestamp', 'desc')
-                          .limit(1)
-                          .get();
-
-      if (!ultimoSnap.empty) {
-        const ultimo = ultimoSnap.docs[0].data();
-        ultimoTempoEl.textContent = `Último treino: ${ultimo.duracao || "--"}`;
-      } else {
-        ultimoTempoEl.textContent = `Último treino: --`;
-      }
-    } catch (err) {
-      console.error("Erro ao atualizar contagem:", err);
-      totalTreinosEl.textContent = "Erro ao carregar contador (veja console).";
-    }
-  }
-
-  // ===========================
-  // 🚀 Inicializar e listeners
-  // ===========================
-  function iniciarContagem() {
-    auth.onAuthStateChanged(user => {
-      if (user) {
-        atualizarContagem();
-      } else {
-        totalTreinosEl.textContent = "Faça login para acompanhar seus treinos.";
-        ultimoTempoEl.textContent = "Último treino: --";
-      }
     });
-  }
 
-  // Botões
-  iniciarBtn.addEventListener('click', iniciarCronometro);
-  finalizarBtn.addEventListener('click', finalizarCronometro);
-  window.addEventListener('load', iniciarContagem);
-</script>
+    // =============================
+    // NAVEGAÇÃO ENTRE ABAS
+    // =============================
+    const tabs = document.querySelectorAll('.tab');
+    const conteudo = document.getElementById('conteudo');
 
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+
+        const nomeAba = tab.dataset.tab;
+        conteudo.innerHTML = paginas[nomeAba];
+
+        // Reatribuir o botão de logout quando for Home
+        if (nomeAba === 'home') {
+          document.getElementById('logoutBtn').addEventListener('click', () => {
+            auth.signOut().then(() => {
+              window.location.href = 'login.html';
+            });
+          });
+        }
+      });
+    });
   </script>
 </body>
 </html>
-

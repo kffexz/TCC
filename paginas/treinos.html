@@ -2,65 +2,45 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <link rel="icon" type="image/png" href="../assets/logo.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gym Warriors - Treinos</title>
-
   <link rel="stylesheet" href="style/treinos.css">
+  <link rel="icon" type="image/png" href="../assets/logo.png">
 
   <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-
-  
 </head>
 <body>
-
-  <div class="container">
+  <main class="container">
     <h1>Treino do Dia</h1>
-    <h2 id="treinoDoDia">Clique no botão para ver o treino do dia</h2>
-    <button onclick="mostrarProximoTreino()">Próximo Treino</button>
+    <h2 id="treinoDoDia">Carregando...</h2>
+    <button id="btnProximo" disabled>Próximo Treino</button>
+    <div id="exerciciosContainer"></div>
+  </main>
 
-
-  <div id="exerciciosContainer"></div>
-  </div>
-  <!-- 🟢 Barra de Navegação Inferior -->
   <nav class="tab-bar">
-    <a href="home.html" style="text-decoration: none;" class="tab">
-      <ion-icon name="home-outline"></ion-icon>
-      <span>Home</span>
-    </a>
-    <a href="treinos.html" style="text-decoration: none;" class="tab active">
-      <ion-icon name="barbell-outline"></ion-icon>
-      <span>Treinos</span>
-    </a>
-    <a href="progresso.html" style="text-decoration: none;" class="tab">
-      <ion-icon name="stats-chart-outline"></ion-icon>
-      <span>Progresso</span>
-    </a>
-    <a href="perfil.html" style="text-decoration: none;" class="tab">
-      <ion-icon name="person-outline"></ion-icon>
-      <span>Perfil</span>
-    </a>
+    <a href="home.html" class="tab"><ion-icon name="home-outline"></ion-icon><span>Home</span></a>
+    <a href="treinos.html" class="tab active"><ion-icon name="barbell-outline"></ion-icon><span>Treinos</span></a>
+    <a href="progresso.html" class="tab"><ion-icon name="stats-chart-outline"></ion-icon><span>Progresso</span></a>
+    <a href="perfil.html" class="tab"><ion-icon name="person-outline"></ion-icon><span>Perfil</span></a>
   </nav>
 
-  <!-- Ícones do Ionic -->
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 
   <script>
     // ================================
-    // 🔹 CONFIGURAÇÃO DO FIREBASE
+    // 🔹 FIREBASE CONFIG
     // ================================
     const firebaseConfig = {
       apiKey: "AIzaSyAbVJUTwovjKHua6OWP_yIncKYytEEwPfo",
       authDomain: "tcc-994f7.firebaseapp.com",
       projectId: "tcc-994f7",
-      storageBucket: "tcc-994f7.firebasestorage.app",
+      storageBucket: "tcc-994f7.appspot.com",
       messagingSenderId: "848443566233",
-      appId: "1:848443566233:web:b9be3b2beccb027fa53008",
-      measurementId: "G-SGB2LYMT17"
+      appId: "1:848443566233:web:b9be3b2beccb027fa53008"
     };
 
     firebase.initializeApp(firebaseConfig);
@@ -68,135 +48,213 @@
     const db = firebase.firestore();
 
     // ================================
-    // 🔹 EXERCÍCIOS DISPONÍVEIS
+    // 🔹 VARIÁVEIS GLOBAIS
     // ================================
-    
-const exercicios = {
-    pernas: [
-        { equipamento: "Halteres",  exercicio: "Agachamento leve", foco: "Resistência" },
-        { equipamento: "Halteres", exercicio: "Passada (avanço)", foco: "Força" ,foco: "Crescimento" },
-        { equipamento: "Barra", exercicio: "Agachamento livre pesado", foco: "Força ", foco:" Crescimento" },
-    { equipamento: "Kettlebell",  exercicio: "Goblet squat / Swing", foco: "Funcional" ,foco: "Força" },
-    { equipamento: "Elástico",  exercicio: "Agachamento com elástico", foco: "Mobilidade" ,foco: "Resistência" },
-    { equipamento: "Esteira",  exercicio: "Caminhada inclinada", foco: "Aeróbico" ,foco: "Resistência" },
-    { equipamento: "Esteira",  exercicio: "Corrida leve", foco: "Aeróbico" },
-    { equipamento: "Corda",  exercicio: "Saltos simples", foco: "Aeróbico" ,foco: "Resistência" },
-    { equipamento: "Corda",  exercicio: "Double unders", foco: "Aeróbico" ,foco: "Coordenação" },
-    { equipamento: "Corpo", exercicio: "Pistol squat", foco: "Força" ,foco: "Mobilidade" },
-    { equipamento: "Corda naval",  exercicio: "Ondas com agachamento", foco: "Aeróbico" ,foco: "Força" }
-],
-ombros: [
-    { equipamento: "Halteres",  exercicio: "Elevação lateral sentada", foco: "Resistência" },
-    { equipamento: "Halteres", exercicio: "Desenvolvimento militar", foco: "Força" ,foco: "Crescimento" },
-    { equipamento: "Barra",  exercicio: "Desenvolvimento em pé", foco: "Força" },
-    { equipamento: "Elástico",  exercicio: "Elevação frontal", foco: "Mobilidade" ,foco: "Resistência" },
-    { equipamento: "Kettlebell", exercicio: "Press alternado", foco: "Funcional" ,foco: "Força" },
-    { equipamento: "Kettlebell",  exercicio: "Turkish get-up", foco: "Funcional" ,foco: "Mobilidade" },
-    { equipamento: "Corpo", exercicio: "Pike push-up", foco: "Força" ,foco: "Resistência" },
-    { equipamento: "Corpo",  exercicio: "Handstand push-up", foco: "Força" ,foco: "Controle corporal" },
-    { equipamento: "Corda naval",  exercicio: "Golpes laterais", foco: "Aeróbico" ,foco: "Funcional" }
-],
-costas: [
-    { equipamento: "Halteres", exercicio: "Remada unilateral apoiada", foco: "Crescimento" ,foco: "Força" },
-    { equipamento: "Halteres",  exercicio: "Remada curvada", foco: "Força" ,foco: "Crescimento" },
-    { equipamento: "Barra",  exercicio: "Barra fixa pronada", foco: "Força" ,foco: "Resistência" },
-    { equipamento: "Elástico", exercicio: "Remada sentada", foco: "Mobilidade" ,foco: "Resistência" },
-    { equipamento: "Elástico",  exercicio: "Puxada alta", foco: "Resistência" ,foco: "Funcional" },
-    { equipamento: "Kettlebell",  exercicio: "Remada com kettlebell", foco: "Força" ,foco: "Funcional" },
-    { equipamento: "Corpo",  exercicio: "Muscle-up", foco: "Força" ,foco: "Crescimento" },
-    { equipamento: "Corda naval", exercicio: "Ondas alternadas", foco: "Aeróbico" ,foco: "Resistência" }
-],
-peito: [
-    { equipamento: "Halteres",  exercicio: "Supino reto leve", foco: "Crescimento" },
-    { equipamento: "Halteres",  exercicio: "Supino inclinado", foco: "Crescimento" ,foco: "Força" },
-    { equipamento: "Barra",  exercicio: "Supino pesado", foco: "Força" ,foco: "Crescimento" },
-    { equipamento: "Elástico", exercicio: "Crucifixo com elástico", foco: "Mobilidade" ,foco: "Resistência" },
-    { equipamento: "Kettlebell", exercicio: "Supino no chão", foco: "Funcional" ,foco: "Força" },
-    { equipamento: "Corpo",  exercicio: "Flexão inclinada", foco: "Resistência" },
-    { equipamento: "Corpo", exercicio: "Flexão tradicional", foco: "Resistência" ,foco: "Força" },
-    { equipamento: "Corpo", exercicio: "Flexão com palmas", foco: "Força" ,foco: "Explosão" },
-    { equipamento: "Corda naval",  exercicio: "Golpes cruzados", foco: "Aeróbico" ,foco: "Funcional" }
-],
-biceps: [
-    { equipamento: "Halteres",  exercicio: "Rosca alternada", foco: "Resistência" },
-    { equipamento: "Halteres", exercicio: "Rosca martelo", foco: "Crescimento" ,foco: "Força" },
-    { equipamento: "Barra",  exercicio: "Rosca direta pesada", foco: "Força" },
-    { equipamento: "Elástico",  exercicio: "Rosca com elástico", foco: "Mobilidade" ,foco: "Resistência" },
-    { equipamento: "Kettlebell",  exercicio: "Rosca neutra", foco: "Força" ,foco: "Funcional" },
-    { equipamento: "Corpo",  exercicio: "Chin-up", foco: "Força" ,foco: "Crescimento" }
-],
-triceps: [
-    { equipamento: "Halteres", exercicio: "Coice de tríceps", foco: "Resistência" },
-    { equipamento: "Halteres",  exercicio: "Tríceps francês", foco: "Crescimento" },
-    { equipamento: "Barra",  exercicio: "Tríceps testa", foco: "Força" ,foco: "Crescimento" },
-    { equipamento: "Elástico", exercicio: "Extensão com elástico", foco: "Mobilidade" ,foco: "Resistência" },
-    { equipamento: "Kettlebell",  exercicio: "Extensão acima da cabeça", foco: "Força" ,foco: "Funcional" },
-    { equipamento: "Corpo", exercicio: "Paralelas (dips)", foco: "Força" ,foco: "Resistência" },
-    { equipamento: "Corda naval",  exercicio: "Ondas curtas", foco: "Resistência" ,foco: "Aeróbico" }
-]
+    let usuario = null;
+    let equipamentosUsuario = [];
+    let objetivoUsuario = "";
+
+    const treinoElem = document.getElementById("treinoDoDia");
+    const btnProximo = document.getElementById("btnProximo");
+    const container = document.getElementById("exerciciosContainer");
+
+    const mapaTreinos = {
+      "Treino A": ["peito", "triceps"],
+      "Treino B": ["costas", "biceps"],
+      "Treino C": ["pernas", "ombros"]
     };
 
     // ================================
-    // 🔹 LER EQUIPAMENTOS DO FIRESTORE
+    // 🔹 EXERCÍCIOS (resumidos)
     // ================================
-    let equipamentosUsuario = [];
+    const exercicios = {
+  pernas: [
+    { equipamento: "Halteres", exercicio: "Agachamento leve", foco: ["Resistência", "Funcional"] },
+    { equipamento: "Halteres", exercicio: "Passada (avanço)", foco: ["Crescimento", "Força"] },
+    { equipamento: "Barra", exercicio: "Agachamento livre pesado", foco: ["Força", "Crescimento"] },
+    { equipamento: "Kettlebell", exercicio: "Goblet squat", foco: ["Funcional", "Mobilidade"] },
+    { equipamento: "Elástico", exercicio: "Agachamento com elástico", foco: ["Mobilidade", "Resistência"] },
+    { equipamento: "Esteira", exercicio: "Caminhada inclinada", foco: ["Aeróbico", "Resistência"] },
+    { equipamento: "Esteira", exercicio: "Corrida leve", foco: ["Aeróbico", "Resistência"] },
+    { equipamento: "Corda", exercicio: "Saltos simples", foco: ["Coordenação", "Resistência"] },
+    { equipamento: "Corda", exercicio: "Double unders", foco: ["Coordenação", "Explosão"] },
+    { equipamento: "Corpo", exercicio: "Pistol squat", foco: ["Força", "Controle corporal", "Equilíbrio"] },
+    { equipamento: "Corda naval", exercicio: "Ondas com agachamento", foco: ["Força", "Explosão", "Resistência"] },
+    { equipamento: "Barra", exercicio: "Stiff", foco: ["Crescimento", "Força"] },
+    { equipamento: "Halteres", exercicio: "Afundo búlgaro", foco: ["Força", "Equilíbrio"] },
+    { equipamento: "Kettlebell", exercicio: "Deadlift unilateral", foco: ["Funcional", "Mobilidade", "Força"] },
+    { equipamento: "Corpo", exercicio: "Ponte de glúteo", foco: ["Resistência", "Crescimento"] },
+    { equipamento: "Elástico", exercicio: "Cadeira extensora com elástico", foco: ["Mobilidade", "Resistência"] },
+    { equipamento: "Corda naval", exercicio: "Saltos laterais com corda", foco: ["Aeróbico", "Explosão"] }
+  ],
 
-    auth.onAuthStateChanged(async (user) => {
-      if (!user) {
-        console.log("Usuário não autenticado");
-        return;
+  ombros: [
+    { equipamento: "Halteres", exercicio: "Elevação lateral sentada", foco: ["Resistência", "Crescimento"] },
+    { equipamento: "Halteres", exercicio: "Desenvolvimento militar", foco: ["Crescimento", "Força"] },
+    { equipamento: "Barra", exercicio: "Desenvolvimento em pé", foco: ["Força", "Crescimento"] },
+    { equipamento: "Elástico", exercicio: "Elevação frontal", foco: ["Mobilidade", "Resistência"] },
+    { equipamento: "Kettlebell", exercicio: "Press alternado", foco: ["Funcional", "Força"] },
+    { equipamento: "Kettlebell", exercicio: "Turkish get-up", foco: ["Mobilidade", "Controle corporal", "Funcional"] },
+    { equipamento: "Corpo", exercicio: "Pike push-up", foco: ["Força", "Resistência"] },
+    { equipamento: "Corpo", exercicio: "Handstand push-up", foco: ["Força", "Controle corporal", "Explosão"] },
+    { equipamento: "Corda naval", exercicio: "Golpes laterais", foco: ["Funcional", "Resistência"] },
+    { equipamento: "Halteres", exercicio: "Elevação posterior", foco: ["Crescimento", "Isolamento"] },
+    { equipamento: "Barra", exercicio: "Push press", foco: ["Força", "Explosão"] },
+    { equipamento: "Elástico", exercicio: "Rotação externa", foco: ["Mobilidade", "Prevenção de lesões"] },
+    { equipamento: "Corpo", exercicio: "Planche lean", foco: ["Controle corporal", "Força"] },
+    { equipamento: "Corda naval", exercicio: "Golpes diagonais", foco: ["Funcional", "Explosão"] }
+  ],
+
+  costas: [
+    { equipamento: "Halteres", exercicio: "Remada unilateral apoiada", foco: ["Crescimento", "Força"] },
+    { equipamento: "Halteres", exercicio: "Remada curvada", foco: ["Força", "Crescimento"] },
+    { equipamento: "Barra", exercicio: "Barra fixa pronada", foco: ["Força", "Resistência"] },
+    { equipamento: "Elástico", exercicio: "Remada sentada", foco: ["Resistência", "Mobilidade"] },
+    { equipamento: "Elástico", exercicio: "Puxada alta", foco: ["Funcional", "Mobilidade"] },
+    { equipamento: "Kettlebell", exercicio: "Remada com kettlebell", foco: ["Funcional", "Força"] },
+    { equipamento: "Corpo", exercicio: "Muscle-up", foco: ["Força", "Explosão", "Controle corporal"] },
+    { equipamento: "Corda naval", exercicio: "Ondas alternadas", foco: ["Resistência", "Força"] },
+    { equipamento: "Barra", exercicio: "Levantamento terra", foco: ["Força", "Crescimento", "Explosão"] },
+    { equipamento: "Halteres", exercicio: "Pullover", foco: ["Crescimento", "Resistência"] },
+    { equipamento: "Elástico", exercicio: "Face pull", foco: ["Mobilidade", "Prevenção de lesões"] },
+    { equipamento: "Corpo", exercicio: "Superman", foco: ["Resistência", "Mobilidade"] },
+    { equipamento: "Kettlebell", exercicio: "High pull", foco: ["Funcional", "Explosão"] }
+  ],
+
+  peito: [
+    { equipamento: "Halteres", exercicio: "Supino reto leve", foco: ["Crescimento", "Força"] },
+    { equipamento: "Halteres", exercicio: "Supino inclinado", foco: ["Força", "Crescimento"] },
+    { equipamento: "Barra", exercicio: "Supino pesado", foco: ["Crescimento", "Força", "Explosão"] },
+    { equipamento: "Elástico", exercicio: "Crucifixo com elástico", foco: ["Mobilidade", "Isolamento"] },
+    { equipamento: "Kettlebell", exercicio: "Supino no chão", foco: ["Funcional", "Força"] },
+    { equipamento: "Corpo", exercicio: "Flexão inclinada", foco: ["Resistência", "Funcional"] },
+    { equipamento: "Corpo", exercicio: "Flexão tradicional", foco: ["Força", "Crescimento"] },
+    { equipamento: "Corpo", exercicio: "Flexão com palmas", foco: ["Explosão", "Coordenação"] },
+    { equipamento: "Corda naval", exercicio: "Golpes cruzados", foco: ["Funcional", "Resistência"] },
+    { equipamento: "Halteres", exercicio: "Crucifixo reto", foco: ["Crescimento", "Isolamento"] },
+    { equipamento: "Barra", exercicio: "Supino declinado", foco: ["Força", "Crescimento"] },
+    { equipamento: "Elástico", exercicio: "Press de peito", foco: ["Resistência", "Mobilidade"] },
+    { equipamento: "Corpo", exercicio: "Flexão arqueada", foco: ["Mobilidade", "Controle corporal"] },
+    { equipamento: "Kettlebell", exercicio: "Floor press", foco: ["Funcional", "Força"] }
+  ],
+
+  biceps: [
+    { equipamento: "Halteres", exercicio: "Rosca alternada", foco: ["Resistência", "Crescimento"] },
+    { equipamento: "Halteres", exercicio: "Rosca martelo", foco: ["Crescimento", "Força"] },
+    { equipamento: "Barra", exercicio: "Rosca direta pesada", foco: ["Força", "Crescimento"] },
+    { equipamento: "Elástico", exercicio: "Rosca com elástico", foco: ["Mobilidade", "Resistência"] },
+    { equipamento: "Kettlebell", exercicio: "Rosca neutra", foco: ["Funcional", "Força"] },
+    { equipamento: "Corpo", exercicio: "Chin-up", foco: ["Crescimento", "Força"] },
+    { equipamento: "Halteres", exercicio: "Rosca concentrada", foco: ["Crescimento", "Isolamento"] },
+    { equipamento: "Barra", exercicio: "Rosca 21", foco: ["Resistência", "Crescimento"] },
+    { equipamento: "Elástico", exercicio: "Rosca inversa", foco: ["Mobilidade", "Resistência"] },
+    { equipamento: "Kettlebell", exercicio: "Rosca unilateral", foco: ["Funcional", "Resistência"] }
+  ],
+
+  triceps: [
+    { equipamento: "Halteres", exercicio: "Coice de tríceps", foco: ["Resistência", "Isolamento"] },
+    { equipamento: "Halteres", exercicio: "Tríceps francês", foco: ["Crescimento", "Força"] },
+    { equipamento: "Barra", exercicio: "Tríceps testa", foco: ["Força", "Crescimento"] },
+    { equipamento: "Elástico", exercicio: "Extensão com elástico", foco: ["Mobilidade", "Resistência"] },
+    { equipamento: "Kettlebell", exercicio: "Extensão acima da cabeça", foco: ["Funcional", "Força"] },
+    { equipamento: "Corpo", exercicio: "Paralelas (dips)", foco: ["Força", "Crescimento", "Controle corporal"] },
+    { equipamento: "Corda naval", exercicio: "Ondas curtas", foco: ["Resistência", "Explosão"] },
+    { equipamento: "Halteres", exercicio: "Kickback unilateral", foco: ["Resistência", "Isolamento"] },
+    { equipamento: "Barra", exercicio: "Fechamento de supino", foco: ["Força", "Crescimento"] },
+    { equipamento: "Corpo", exercicio: "Flexão diamante", foco: ["Crescimento", "Resistência"] },
+    { equipamento: "Elástico", exercicio: "Tríceps pull-down", foco: ["Resistência", "Mobilidade"] }
+  ]
+};
+
+    // ================================
+    // 🔹 CALCULAR SÉRIES E REPETIÇÕES
+    // ================================
+    function calcularTreino(usuario, foco) {
+      const { idade, peso, sexo, objetivo } = usuario;
+      let series = 3, repeticoes = 12;
+
+      // Ajuste por idade
+      if (idade < 20) repeticoes += 2;
+      if (idade > 40) repeticoes -= 2;
+
+      // Ajuste por peso
+      if (peso > 85) series += 1;
+      if (peso < 60) repeticoes += 2;
+
+      // Ajuste por sexo
+      if (sexo === "masculino") series += 1;
+      else repeticoes += 2;
+
+      // Ajuste pelo objetivo principal
+      switch (objetivo) {
+        case "Força": series += 1; repeticoes -= 4; break;
+        case "Crescimento": series += 1; break;
+        case "Resistência": repeticoes += 4; break;
+        case "Funcional": repeticoes += 1; break;
+        case "Mobilidade": series -= 1; repeticoes += 6; break;
+        case "Aeróbico": series -= 1; repeticoes += 8; break;
       }
 
-      const docRef = db.collection("usuarios").doc(user.uid);
-      const docSnap = await docRef.get();
+      // Ajuste pelo foco do exercício
+      if (foco.includes(objetivo)) series += 1;
 
-      if (docSnap.exists) {
-        const data = docSnap.data();
-        equipamentosUsuario = data.equipamentos || []; // ["Halteres", "Elástico", etc.]
-        console.log("Equipamentos do usuário:", equipamentosUsuario);
-      } else {
-        console.log("Nenhum equipamento encontrado para este usuário.");
-      }
-    });
+      // Limites
+      series = Math.max(2, Math.min(series, 6));
+      repeticoes = Math.max(6, Math.min(repeticoes, 20));
 
-    // ================================
-    // 🔹 FUNÇÃO - TREINO DO DIA
-    // ================================
-    function mostrarProximoTreino() {
-      const treinos = ["Treino A", "Treino B", "Treino C"];
-      let ultimo = localStorage.getItem("ultimoTreino");
-
-      let proximo;
-      if (!ultimo || !treinos.includes(ultimo)) {
-        proximo = treinos[0];
-      } else {
-        let indice = treinos.indexOf(ultimo);
-        proximo = treinos[(indice + 1) % treinos.length];
-      }
-
-      localStorage.setItem("ultimoTreino", proximo);
-      document.getElementById("treinoDoDia").textContent = `Treino do dia: ${proximo}`;
-      mostrarExerciciosTreino(proximo);
+      return { series, repeticoes };
     }
 
     // ================================
-    // 🔹 MOSTRAR EXERCÍCIOS COMPATÍVEIS
+    // 🔹 AUTENTICAÇÃO
     // ================================
-    function mostrarExerciciosTreino(treinoDoDia) {
-      const container = document.getElementById("exerciciosContainer");
-      container.innerHTML = "<h2>Exercícios disponíveis:</h2>";
+    auth.onAuthStateChanged(async (user) => {
+      if (!user) {
+        treinoElem.textContent = "Faça login para ver seus treinos.";
+        return;
+      }
 
-      // Define os grupos musculares de cada treino
-      let gruposSelecionados = [];
-      if (treinoDoDia === "Treino A") gruposSelecionados = ["peito", "triceps"];
-      if (treinoDoDia === "Treino B") gruposSelecionados = ["costas", "biceps"];
-      if (treinoDoDia === "Treino C") gruposSelecionados = ["pernas", "ombros"];
+      const doc = await db.collection("usuarios").doc(user.uid).get();
+      if (!doc.exists) {
+        treinoElem.textContent = "Usuário não encontrado.";
+        return;
+      }
 
-      let total = 0;
+      usuario = doc.data();
+      equipamentosUsuario = usuario.equipamentos || [];
+      objetivoUsuario = usuario.objetivo || "";
 
-      gruposSelecionados.forEach(grupo => {
+      treinoElem.textContent = `Clique no botão para ver seu treino do dia (objetivo: ${objetivoUsuario}).`;
+      btnProximo.disabled = false;
+    });
+
+    // ================================
+    // 🔹 MOSTRAR EXERCÍCIOS
+    // ================================
+    btnProximo.addEventListener("click", () => {
+      const treinos = Object.keys(mapaTreinos);
+      const ultimo = localStorage.getItem("ultimoTreino");
+      let proximo = treinos[0];
+
+      if (ultimo && treinos.includes(ultimo)) {
+        const idx = treinos.indexOf(ultimo);
+        proximo = treinos[(idx + 1) % treinos.length];
+      }
+
+      localStorage.setItem("ultimoTreino", proximo);
+      treinoElem.textContent = `Treino do dia: ${proximo} (${objetivoUsuario})`;
+      mostrarExercicios(proximo);
+    });
+
+    function mostrarExercicios(treinoDoDia) {
+      container.innerHTML = "";
+      const grupos = mapaTreinos[treinoDoDia];
+      let encontrados = 0;
+
+      grupos.forEach(grupo => {
         const lista = exercicios[grupo].filter(ex =>
-          equipamentosUsuario.includes(ex.equipamento)
+          equipamentosUsuario.includes(ex.equipamento) &&
+          ex.foco.includes(objetivoUsuario)
         );
 
         if (lista.length > 0) {
@@ -204,22 +262,63 @@ triceps: [
           grupoDiv.innerHTML = `<h3>${grupo.toUpperCase()}</h3>`;
 
           lista.forEach(ex => {
-            const item = document.createElement("p");
-            item.textContent = `🏋️‍♂️ ${ex.exercicio} (${ex.equipamento}) - ${ex.foco}`;
+            const item = document.createElement("div");
+            item.classList.add("exercicio-item");
+            item.innerHTML = `<p><strong>${ex.exercicio}</strong> (${ex.equipamento})</p>`;
+            item.addEventListener("click", () => mostrarDetalhes(ex));
             grupoDiv.appendChild(item);
           });
 
           container.appendChild(grupoDiv);
-          total += lista.length;
+          encontrados += lista.length;
         }
       });
 
-      if (total === 0) {
-        container.innerHTML += "<p>Nenhum exercício compatível com seus equipamentos.</p>";
+      if (encontrados === 0) {
+        container.innerHTML = "<p>Nenhum exercício compatível com seu objetivo e equipamentos.</p>";
       }
     }
 
-    
+    // ================================
+    // 🔹 DETALHES DO EXERCÍCIO
+    // ================================
+    function mostrarDetalhes(ex) {
+      const { series, repeticoes } = calcularTreino(usuario, ex.foco);
+      container.innerHTML = `
+        <h2>${ex.exercicio}</h2>
+        <p>Equipamento: ${ex.equipamento}</p>
+        <p>Foco: ${ex.foco.join(", ")}</p>
+        <p><strong>${series} séries de ${repeticoes} repetições</strong></p>
+        <button id="btnRealizar">Realizar Exercício</button>
+        <button id="btnVoltar">Voltar</button>
+      `;
+
+      document.getElementById("btnRealizar").addEventListener("click", async () => {
+        const registro = {
+          exercicio: ex.exercicio,
+          equipamento: ex.equipamento,
+          series,
+          repeticoes,
+          objetivo: usuario.objetivo,
+          data: new Date().toISOString()
+        };
+
+        const user = auth.currentUser;
+        if (!user) return;
+
+        await db.collection("usuarios").doc(user.uid)
+          .collection("progresso")
+          .add(registro);
+
+        alert("✅ Exercício registrado com sucesso!");
+        btnProximo.click();
+      });
+
+      document.getElementById("btnVoltar").addEventListener("click", () => {
+        const ultimo = localStorage.getItem("ultimoTreino");
+        mostrarExercicios(ultimo);
+      });
+    }
   </script>
 </body>
 </html>
