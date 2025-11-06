@@ -1,0 +1,193 @@
+/* 🌑 Tema escuro inspirado no app Gym Warriors */
+:root {
+  --cor-fundo: #0b0b0b;
+  --cor-container: rgba(26, 26, 26, 0.8); /* leve transparência */
+  --cor-principal: #00aea8;
+  --cor-texto: #ffffff;
+  --cor-secundaria: #bbbbbb;
+  --fonte-principal: 'Poppins', sans-serif;
+}
+
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: linear-gradient(92deg, #000000, #00aea8);
+  font-family: var(--fonte-principal);
+  color: var(--cor-texto);
+  line-height: 1.7;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 2rem;
+  overflow: hidden; /* evita scroll no body */
+}
+
+/* =============================== */
+/*           CONTAINER             */
+/* =============================== */
+.container {
+  background: var(--cor-container);
+  padding: 40px 30px;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 800px;
+  animation: fadeIn 0.8s ease-in-out;
+  backdrop-filter: blur(10px);
+  overflow-y: scroll; /* rolagem interna */
+  max-height: 90vh;
+}
+
+.logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+#logo {
+  width: 120px;
+  max-width: 40%;
+  height: auto;
+  display: block;
+}
+/* 🔥 Esconde a barrinha mas mantém o scroll */
+.container::-webkit-scrollbar {
+  width: 0;
+  background: transparent;
+}
+.container {
+  -ms-overflow-style: none; /* IE e Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+/* ✨ Animação */
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* 📄 Cabeçalhos e textos */
+h1 {
+  color: var(--cor-principal);
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 2.2rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+h2 {
+  color: var(--cor-principal);
+  margin-top: 1.8rem;
+  margin-bottom: 1rem;
+  font-size: 1.4rem;
+  font-weight: 500;
+  border-left: 4px solid var(--cor-principal);
+  padding-left: 10px;
+}
+
+p, ul {
+  color: var(--cor-secundaria);
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  text-align: justify;
+  word-wrap: break-word;
+}
+
+/* 🔹 Lista */
+ul {
+  padding-left: 1.5rem;
+}
+
+li {
+  margin-bottom: 0.5rem;
+}
+
+/* ✉️ Email e links */
+p strong {
+  color: var(--cor-principal);
+}
+
+a {
+  display: inline-block;
+  margin-top: 2rem;
+  color: var(--cor-principal);
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+a:hover {
+  color: #02d1bc;
+  text-decoration: underline;
+}
+
+/* 🦶 Rodapé */
+footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  margin-top: 3rem;
+  padding-top: 1rem;
+  text-align: center;
+  color: var(--cor-secundaria);
+  font-size: 0.9rem;
+}
+
+/* 📱 Responsividade */
+@media (max-width: 768px) {
+  .container {
+    padding: 25px 20px;
+    max-width: 95%;
+  }
+
+  h1 {
+    font-size: 1.8rem;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+  }
+
+  p, li {
+    font-size: 0.95rem;
+  }
+
+  a {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 1rem;
+  }
+
+  .container {
+    padding: 20px 15px;
+    border-radius: 15px;
+  }
+
+  h1 {
+    font-size: 1.6rem;
+  }
+
+  h2 {
+    font-size: 1.1rem;
+  }
+
+  p, li {
+    font-size: 0.9rem;
+  }
+}
+
+/* ✨ Efeito sutil nos títulos */
+h2:hover {
+  color: #03cfc7;
+  transition: 0.3s;
+}

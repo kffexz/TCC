@@ -1,19 +1,17 @@
-  /* ===========================================
-   ⚡ GYM WARRIORS - TREINOS / CONTROLE
-=========================================== */
-
+/* 🎨 PALETA GYM WARRIORS */
 :root {
-  --cor-fundo: #0b0b0b;
+  --cor-fundo: #050505;
   --cor-container: rgba(25, 25, 25, 0.85);
   --cor-principal: #00ffcc;
-  --cor-secundaria: #00bfa6;
-  --cor-destaque: #00f5d4;
+  --cor-secundaria: #009e8f;
   --cor-texto: #ffffff;
   --cor-placeholder: #aaaaaa;
-  --cor-borda: rgba(255, 255, 255, 0.1);
-  --sombra: 0 0 20px rgba(0, 255, 204, 0.25);
+  --cor-borda: #1f1f1f;
+  --cor-destaque: #00f5d4;
+  --sombra: 0 0 20px rgba(0, 255, 204, 0.3);
 }
 
+/* 🔄 RESET */
 * {
   margin: 0;
   padding: 0;
@@ -21,133 +19,113 @@
   font-family: "Poppins", sans-serif;
 }
 
-/* ===========================================
-   🌌 BODY
-=========================================== */
+html, body {
+  height: 100%;
+  overflow-x: hidden;
+}
+
 body {
-  min-height: 100vh;
   background: radial-gradient(circle at 50% 30%, #1b9d94, #000);
+  background-attachment: fixed;
   color: var(--cor-texto);
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
   align-items: center;
-  padding-bottom: 100px; /* espaço para barra inferior */
+  overflow-y: scroll;
+  scrollbar-width: none;
+  animation: fadeInBody 1.2s ease-in-out;
+}
+body::-webkit-scrollbar {
+  display: none;
 }
 
-/* ===========================================
-   🧱 CONTAINER PRINCIPAL
-=========================================== */
-body > div, body > section {
-  width: 95%;
-  max-width: 480px;
+@keyframes fadeInBody {
+  from { opacity: 0; transform: scale(1.02); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* 🧱 CONTAINER PRINCIPAL */
+.container {
   background: var(--cor-container);
   backdrop-filter: blur(15px);
-  border-radius: 25px;
   border: 1px solid var(--cor-borda);
-  padding: 2rem 1.5rem;
-  margin-top: 2rem;
+  border-radius: 25px;
   box-shadow: var(--sombra);
+  padding: 2rem;
+  width: 90%;
+  max-width: 420px;
   text-align: center;
-  transition: all 0.3s ease;
+  margin: 5rem auto 6rem;
+  transition: all 0.4s ease;
+}
+.container:hover {
+  transform: scale(1.01);
+  box-shadow: 0 0 25px rgba(0, 255, 204, 0.25);
 }
 
-body > div:hover, body > section:hover {
-  transform: scale(1.02);
-  box-shadow: 0 0 30px rgba(0, 255, 204, 0.3);
-}
-
-/* ===========================================
-   🏋️‍♂️ TÍTULOS
-=========================================== */
-h1, h2 {
-  color: var(--cor-principal);
-  text-shadow: 0 0 10px rgba(0, 255, 204, 0.4);
-}
-
-h1 {
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
-}
-
+/* 🏋️‍♂️ TÍTULOS */
 h2 {
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-}
-
-/* ===========================================
-   ⏱️ CRONÔMETRO
-=========================================== */
-#cronometro {
-  font-size: 3rem;
-  color: #ffffff;
-  margin: 15px 0;
+  color: var(--cor-principal);
+  font-size: 1.8rem;
   text-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
+  margin-bottom: 1.5rem;
+  animation: glow 2s infinite alternate;
+}
+@keyframes glow {
+  from { text-shadow: 0 0 5px rgba(0, 255, 204, 0.3); }
+  to { text-shadow: 0 0 15px rgba(0, 255, 204, 0.8); }
 }
 
-/* ===========================================
-   🔘 BOTÕES
-=========================================== */
-button {
-  padding: 12px 25px;
-  margin: 5px;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
-  font-size: 1rem;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  box-shadow: var(--sombra);
+/* 📊 GRÁFICO */
+.grafico-container {
+  width: 100%;
+  height: 250px;
+  background: rgba(10, 10, 10, 0.6);
+  border-radius: 15px;
+  padding: 10px;
+  box-shadow: inset 0 0 20px rgba(0, 255, 204, 0.1);
+}
+canvas {
+  width: 100% !important;
+  height: 100% !important;
 }
 
-button:hover {
-  transform: translateY(-3px) scale(1.05);
-}
-
-#iniciarBtn {
-  background: linear-gradient(90deg, var(--cor-principal), var(--cor-secundaria));
-  color: #000;
-}
-
-#finalizarBtn {
-  background: linear-gradient(90deg, #ff4f4f, #e53935);
-  color: #fff;
-}
-
-/* ===========================================
-   📝 TREINO DO DIA / EXERCÍCIOS
-=========================================== */
-#exerciciosContainer {
-  margin-top: 1rem;
+/* 📈 DADOS */
+.dados {
+  margin-top: 1.2rem;
   text-align: left;
 }
-
-#exerciciosContainer h2 {
-  text-align: center;
+.dados p {
+  font-size: 1rem;
+  margin: 8px 0;
+  color: var(--cor-texto);
+}
+.dados strong {
   color: var(--cor-principal);
-  margin-bottom: 10px;
 }
 
-#exerciciosContainer div {
-  margin-top: 10px;
-  background: rgba(0, 255, 204, 0.05);
-  padding: 10px 12px;
-  border-left: 4px solid var(--cor-principal);
-  border-radius: 8px;
-  transition: all 0.2s ease;
+/* ⚙️ BOTÃO */
+#adicionarPesoBtn {
+  margin-top: 1.5rem;
+  background: linear-gradient(90deg, var(--cor-principal), var(--cor-secundaria));
+  color: #000;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.3s;
+  box-shadow: var(--sombra);
+}
+#adicionarPesoBtn:hover {
+  transform: translateY(-3px) scale(1.03);
+  background: linear-gradient(90deg, var(--cor-destaque), var(--cor-secundaria));
+  box-shadow: 0 0 30px rgba(0, 255, 204, 0.6);
 }
 
-#exerciciosContainer div p {
-  margin: 4px 0;
-}
-
-#exerciciosContainer div:hover {
-  background: rgba(0, 255, 204, 0.15);
-  transform: scale(1.02);
-}
-
-/* ===================================
-   ⚡ BARRA DE NAVEGAÇÃO INFERIOR
-=================================== */
+/* ⚡ BARRA INFERIOR */
 .tab-bar {
   position: fixed;
   bottom: 0;
@@ -163,7 +141,6 @@ button:hover {
   box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.8);
   z-index: 999;
 }
-
 .tab {
   flex: 1;
   text-align: center;
@@ -174,60 +151,97 @@ button:hover {
   flex-direction: column;
   align-items: center;
 }
-
-.tab ion-icon {
-  font-size: 1.8rem;
-  margin-bottom: 4px;
-  transition: all 0.3s ease;
-}
-
-/* Aba ativa com efeito “neon pulse” */
 .tab.active {
   color: var(--cor-principal);
-  transform: translateY(-3px);
   animation: pulse 1.5s infinite;
 }
-
-.tab.active ion-icon {
-  color: var(--cor-principal);
-  transform: scale(1.2);
-  filter: drop-shadow(0 0 6px var(--cor-principal));
-}
-
 @keyframes pulse {
   0%, 100% { text-shadow: 0 0 5px var(--cor-principal); }
   50% { text-shadow: 0 0 15px var(--cor-principal); }
 }
 
-/* Hover */
-.tab:hover {
-  color: var(--cor-destaque);
-  transform: translateY(-3px);
+/* 💬 MODAL CUSTOMIZADO */
+.modal-alert {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+.modal-content {
+  background: var(--cor-container);
+  padding: 2rem;
+  border-radius: 20px;
+  width: 90%;
+  max-width: 350px;
+  text-align: center;
+  box-shadow: 0 0 25px rgba(0, 255, 204, 0.2);
+  animation: fadeInModal 0.3s ease;
+}
+@keyframes fadeInModal {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+.modal-content h3 {
+  color: var(--cor-principal);
+  margin-bottom: 1rem;
+}
+.modal-content input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--cor-borda);
+  border-radius: 8px;
+  background: #111;
+  color: var(--cor-texto);
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+}
+.btns {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.btns button {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+}
+#confirmPesoBtn {
+  background: linear-gradient(90deg, var(--cor-principal), var(--cor-secundaria));
+  color: #000;
+}
+#cancelPesoBtn {
+  background: #333;
+  color: white;
 }
 
-.tab:hover ion-icon {
-  color: var(--cor-destaque);
-  transform: scale(1.1);
-}
-
-
-/* ===========================================
-   📱 RESPONSIVIDADE
-=========================================== */
-@media (max-width: 500px) {
+/* 📱 RESPONSIVIDADE */
+@media (max-width: 480px) {
   .container {
-    padding: 1.5rem 1rem;
+    margin-top: 3rem;
+    padding: 1.5rem;
   }
-
-  h1 {
-    font-size: 1.7rem;
+  .grafico-container {
+    height: 200px;
   }
-
   h2 {
-    font-size: 1rem;
+    font-size: 1.4rem;
   }
+}
 
-  #exerciciosContainer p {
-    font-size: 0.9rem;
-  }
+/* Remove setas no Chrome, Safari, Edge e Opera */
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Remove setas no Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }

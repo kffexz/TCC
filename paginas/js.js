@@ -36,6 +36,11 @@ function cadastrar() {
     return;
   }
 
+  if (!checkSaude || !checkTermos.checked) {
+    msg.textContent = "Você deve aceitar os termos de uso.";
+    return;
+  }
+
   // Verifica se é Gmail
   if (!email.toLowerCase().endsWith("@gmail.com")) {
     msg.textContent = "Use um e-mail do Gmail.";
