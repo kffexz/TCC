@@ -210,4 +210,49 @@ function renderizarGrafico(pesos) {
   });
 }
 
+// =====================
+// Treinos realizados (totais por tipo)
+// =====================
+auth.onAuthStateChanged(async (user) => {
+  if (!user) return;
 
+  const treinosRef = db
+    .collection("usuarios")
+    .doc(user.uid)
+    .collection("progresso");
+
+  try {
+    const snapshot = await treinosRef.get();
+
+    const totalElement = document.getElementById("totalTreinos");
+    if (!totalElement) return;
+
+    if (snapshot.empty) {
+      totalElement.textContent = "Nenhum treino registrado ainda.";
+      return;
+    }
+
+    // Contadores
+    let total = 0;
+    const tipos = {};
+
+    snapshot.forEach((doc) => {
+      const treino = doc.data();
+      const tipo = (treino.tipo || "Outros").toLowerCase();
+      tipos[tipo] = (tipos[tipo] || 0) + 1;
+      total++;
+    });
+
+    // Monta texto resumo
+    let resumo = `Total: ${total} treinos\n`;
+    resumo += Object.entries(tipos)
+      .map(([tipo, qtd]) => `• ${tipo.charAt(0).toUpperCase() + tipo.slice(1)}: ${qtd}`)
+      .join("\n");
+
+    totalElement.textContent = resumo;
+  } catch (error) {
+    console.error("Erro ao carregar treinos realizados:", error);
+    const totalElement = document.getElementById("totalTreinos");
+    if (totalElement) totalElement.textContent = "Erro ao carregar treinos.";
+  }
+});

@@ -1,42 +1,41 @@
+// ================================
+// 🔹 FIREBASE CONFIG
+// ================================
+const firebaseConfig = {
+  apiKey: "AIzaSyAbVJUTwovjKHua6OWP_yIncKYytEEwPfo",
+  authDomain: "tcc-994f7.firebaseapp.com",
+  projectId: "tcc-994f7",
+  storageBucket: "tcc-994f7.appspot.com",
+  messagingSenderId: "848443566233",
+  appId: "1:848443566233:web:b9be3b2beccb027fa53008"
+};
 
-    // ================================
-    // 🔹 FIREBASE CONFIG
-    // ================================
-    const firebaseConfig = {
-      apiKey: "AIzaSyAbVJUTwovjKHua6OWP_yIncKYytEEwPfo",
-      authDomain: "tcc-994f7.firebaseapp.com",
-      projectId: "tcc-994f7",
-      storageBucket: "tcc-994f7.appspot.com",
-      messagingSenderId: "848443566233",
-      appId: "1:848443566233:web:b9be3b2beccb027fa53008"
-    };
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
 
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    const db = firebase.firestore();
+// ================================
+// 🔹 VARIÁVEIS GLOBAIS
+// ================================
+let usuario = null;
+let equipamentosUsuario = [];
+let objetivoUsuario = "";
 
-    // ================================
-    // 🔹 VARIÁVEIS GLOBAIS
-    // ================================
-    let usuario = null;
-    let equipamentosUsuario = [];
-    let objetivoUsuario = "";
+const treinoElem = document.getElementById("treinoDoDia");
+const btnProximo = document.getElementById("btnProximo");
+const container = document.getElementById("exerciciosContainer");
 
-    const treinoElem = document.getElementById("treinoDoDia");
-    const btnProximo = document.getElementById("btnProximo");
-    const container = document.getElementById("exerciciosContainer");
+const mapaTreinos = {
+  "Peito e Triceps": ["peito", "triceps"],
+  "Costas e Biceps": ["costas", "biceps"],
+  "Pernas e Ombros": ["pernas", "ombros"]
+};
 
-    const mapaTreinos = {
-      "Peito e Triceps": ["peito", "triceps"],
-      "Costas e Biceps": ["costas", "biceps"],
-      "Pernas e Ombros": ["pernas", "ombros"]
-    };
-
-    // ================================
-    // 🔹 EXERCÍCIOS (resumidos)
-    // ================================
-    const exercicios = {
-  pernas: [
+// ================================
+// 🔹 EXERCÍCIOS (resumidos)
+// ================================
+const exercicios = {
+ pernas: [
     { equipamento: "Halteres", exercicio: "Agachamento leve", foco: ["Resistência", "Funcional"] },
     { equipamento: "Halteres", exercicio: "Passada (avanço)", foco: ["Crescimento", "Força"] },
     { equipamento: "Barra", exercicio: "Agachamento livre pesado", foco: ["Força", "Crescimento"] },
@@ -153,131 +152,94 @@
   ]
 };
 
-
-    // ================================
-    // 🔹 CALCULAR SÉRIES E REPETIÇÕES
-    // ================================
-  function calcularTreino(usuario, foco) {
+// ================================
+// 🔹 CALCULAR SÉRIES E REPETIÇÕES
+// ================================
+function calcularTreino(usuario, foco) {
   const { idade, peso, sexo, objetivo } = usuario;
-  let series = 3, repeticoes = 10; // padrão 3x10
+  let series = 3, repeticoes = 10;
 
-  // Ajuste por idade (apenas se não for força)
   if (objetivo !== "Força") {
     if (idade < 20) repeticoes += 2;
     if (idade > 40) repeticoes -= 2;
-  }
-
-  // Ajuste por peso (apenas se não for força)
-  if (objetivo !== "Força") {
     if (peso > 85) series += 1;
     if (peso < 60) repeticoes += 2;
-  }
-
-  // Ajuste por sexo (apenas se não for força)
-  if (objetivo !== "Força") {
     if (sexo === "masculino") series += 1;
     else repeticoes += 2;
   }
 
-  // Ajuste pelo objetivo principal
   switch (objetivo) {
-    case "Força":
-      series = 2;        // sempre 3 séries
-      repeticoes -= 2;   // menos repetições
-      break;
-    case "Crescimento":
-      series += 1;       
-      repeticoes = 10;   
-      break;
-    case "Resistência":
-      repeticoes += 6;   
-      break;
-    case "Funcional":
-      repeticoes += 2;   
-      break;
-    case "Mobilidade":
-      series -= 1;       
-      repeticoes += 6;
-      break;
-    case "Aeróbico":
-      series -= 1;
-      repeticoes += 8;
-      break;
+    case "Força": series = 2; repeticoes -= 2; break;
+    case "Crescimento": series += 1; repeticoes = 10; break;
+    case "Resistência": repeticoes += 6; break;
+    case "Funcional": repeticoes += 2; break;
+    case "Mobilidade": series -= 1; repeticoes += 6; break;
+    case "Aeróbico": series -= 1; repeticoes += 8; break;
   }
 
-  // Ajuste pelo foco do exercício
   if (foco.includes(objetivo)) {
     if (objetivo === "Força" || objetivo === "Crescimento") series += 1;
     if (objetivo === "Resistência" || objetivo === "Aeróbico") repeticoes += 2;
   }
 
-  // Limites finais
   series = Math.max(2, Math.min(series, 6));
   repeticoes = Math.max(4, Math.min(repeticoes, 20));
-
   return { series, repeticoes };
 }
 
-    // ================================
-    // 🔹 AUTENTICAÇÃO
-    // ================================
-    auth.onAuthStateChanged(async (user) => {
-      if (!user) {
-        treinoElem.textContent = "Faça login para ver seus treinos.";
-        return;
-      }
+// ================================
+// 🔹 AUTENTICAÇÃO
+// ================================
+auth.onAuthStateChanged(async (user) => {
+  if (!user) {
+    treinoElem.textContent = "Faça login para ver seus treinos.";
+    return;
+  }
 
-      const doc = await db.collection("usuarios").doc(user.uid).get();
-      if (!doc.exists) {
-        treinoElem.textContent = "Usuário não encontrado.";
-        return;
-      }
+  const doc = await db.collection("usuarios").doc(user.uid).get();
+  if (!doc.exists) {
+    treinoElem.textContent = "Usuário não encontrado.";
+    return;
+  }
 
-      usuario = doc.data();
-      equipamentosUsuario = usuario.equipamentos || [];
-      objetivoUsuario = usuario.objetivo || "";
+  usuario = doc.data();
+  equipamentosUsuario = usuario.equipamentos || [];
+  objetivoUsuario = usuario.objetivo || "";
 
-      treinoElem.textContent = `Clique no botão para ver seu treino do dia (objetivo: ${objetivoUsuario}).`;
-      btnProximo.disabled = false;
-    });
+  treinoElem.textContent = `Clique no botão para ver seu treino do dia (objetivo: ${objetivoUsuario}).`;
+  btnProximo.disabled = false;
+});
 
-    // ================================
-    // 🔹 MOSTRAR EXERCÍCIOS
-    // ================================
-    btnProximo.addEventListener("click", () => {
-      const treinos = Object.keys(mapaTreinos);
-      const ultimo = localStorage.getItem("ultimoTreino");
-      let proximo = treinos[0];
+// ================================
+// 🔹 MOSTRAR EXERCÍCIOS
+// ================================
+btnProximo.addEventListener("click", () => {
+  const treinos = Object.keys(mapaTreinos);
+  const ultimo = localStorage.getItem("ultimoTreino");
+  let proximo = treinos[0];
 
-      if (ultimo && treinos.includes(ultimo)) {
-        const idx = treinos.indexOf(ultimo);
-        proximo = treinos[(idx + 1) % treinos.length];
-      }
+  if (ultimo && treinos.includes(ultimo)) {
+    const idx = treinos.indexOf(ultimo);
+    proximo = treinos[(idx + 1) % treinos.length];
+  }
 
-      localStorage.setItem("ultimoTreino", proximo);
-      treinoElem.textContent = `Treino do dia: ${proximo} (${objetivoUsuario})`;
-      mostrarExercicios(proximo);
-    });
+  localStorage.setItem("ultimoTreino", proximo);
+  treinoElem.textContent = `Treino do dia: ${proximo} (${objetivoUsuario})`;
+  mostrarExercicios(proximo);
+});
 
-    function mostrarExercicios(treinoDoDia) {
+function mostrarExercicios(treinoDoDia) {
   container.innerHTML = "";
   const grupos = mapaTreinos[treinoDoDia];
   let encontrados = 0;
 
   grupos.forEach(grupo => {
-    // Filtra os exercícios compatíveis com o objetivo e equipamentos
     const lista = exercicios[grupo].filter(ex =>
       equipamentosUsuario.includes(ex.equipamento) &&
       ex.foco.includes(objetivoUsuario)
     );
-
-    // Se não achar suficientes, pega qualquer exercício do grupo
     const listaFinal = lista.length > 0 ? lista : exercicios[grupo];
-
-    // 🔹 Pega apenas os 4 primeiros exercícios aleatórios
-    const selecionados = listaFinal
-      .sort(() => 0.5 - Math.random()) // embaralha
-      .slice(0, 4); // limita a 4
+    const selecionados = listaFinal.sort(() => 0.5 - Math.random()).slice(0, 4);
 
     if (selecionados.length > 0) {
       const grupoDiv = document.createElement("div");
@@ -287,7 +249,7 @@
         const item = document.createElement("div");
         item.classList.add("exercicio-item");
         item.innerHTML = `<p><strong>${ex.exercicio}</strong> (${ex.equipamento})</p>`;
-        item.addEventListener("click", () => mostrarDetalhes(ex));
+        item.addEventListener("click", () => mostrarDetalhes(ex, grupo));
         grupoDiv.appendChild(item);
       });
 
@@ -311,7 +273,6 @@ function showCustomAlert(message, onConfirm = null) {
   msg.textContent = message;
   modal.style.display = "flex";
 
-  // Quando o usuário clicar em "Confirmar"
   const button = modal.querySelector("button");
   button.onclick = () => {
     closeCustomAlert();
@@ -323,43 +284,54 @@ function closeCustomAlert() {
   document.getElementById("customAlert").style.display = "none";
 }
 
-    // ================================
-    // 🔹 DETALHES DO EXERCÍCIO
-    // ================================
-    function mostrarDetalhes(ex) {
-      const { series, repeticoes } = calcularTreino(usuario, ex.foco);
-      container.innerHTML = `
-        <h2>${ex.exercicio}</h2>
-        <p>Equipamento: ${ex.equipamento}</p>
-        <p>Foco: ${ex.foco.join(", ")}</p>
-        <p><strong>${series} séries de ${repeticoes} repetições</strong></p>
-        <button id="btnRealizar">Finalizar Exercício</button>
-        <button id="btnVoltar">Voltar</button>
-      `;
+// ================================
+// 🔹 DETALHES DO EXERCÍCIO + SALVAR TREINO
+// ================================
+function mostrarDetalhes(ex, grupoMuscular) {
+  const { series, repeticoes } = calcularTreino(usuario, ex.foco);
+  container.innerHTML = `
+    <h2>${ex.exercicio}</h2>
+    <p>Equipamento: ${ex.equipamento}</p>
+    <p>Foco: ${ex.foco.join(", ")}</p>
+    <p><strong>${series} séries de ${repeticoes} repetições</strong></p>
+    <button id="btnRealizar">Finalizar Exercício</button>
+    <button id="btnVoltar">Voltar</button>
+  `;
 
-      document.getElementById("btnRealizar").addEventListener("click", async () => {
-        const registro = {
-          exercicio: ex.exercicio,
-          equipamento: ex.equipamento,
-          series,
-          repeticoes,
-          objetivo: usuario.objetivo,
-          data: new Date().toISOString()
-        };
+  document.getElementById("btnRealizar").addEventListener("click", async () => {
+    const registro = {
+      exercicio: ex.exercicio,
+      grupo: grupoMuscular,
+      equipamento: ex.equipamento,
+      series,
+      repeticoes,
+      objetivo: usuario.objetivo,
+      data: new Date().toISOString()
+    };
 
-        const user = auth.currentUser;
-        if (!user) return;
+    const user = auth.currentUser;
+    if (!user) return;
 
-        await db.collection("usuarios").doc(user.uid)
-          .collection("progresso")
-          .add(registro);
+    await db.collection("usuarios").doc(user.uid)
+      .collection("progresso")
+      .add(registro);
 
-        showCustomAlert("✅ Exercício registrado com sucesso!");
-        btnProximo.click();
-      });
+    // 🔹 Atualiza contador de treinos
+    const contadoresRef = db.collection("usuarios").doc(user.uid).collection("estatisticas").doc("contadores");
+    await db.runTransaction(async (t) => {
+      const doc = await t.get(contadoresRef);
+      const data = doc.exists ? doc.data() : {};
+      data[grupoMuscular] = (data[grupoMuscular] || 0) + 1;
+      data.total = (data.total || 0) + 1;
+      t.set(contadoresRef, data);
+    });
 
-      document.getElementById("btnVoltar").addEventListener("click", () => {
-        const ultimo = localStorage.getItem("ultimoTreino");
-        mostrarExercicios(ultimo);
-      });
-    }
+    showCustomAlert("✅ Exercício registrado com sucesso!");
+    btnProximo.click();
+  });
+
+  document.getElementById("btnVoltar").addEventListener("click", () => {
+    const ultimo = localStorage.getItem("ultimoTreino");
+    mostrarExercicios(ultimo);
+  });
+}

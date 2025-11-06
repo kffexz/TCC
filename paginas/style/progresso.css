@@ -245,3 +245,50 @@ input[type=number]::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
+
+
+/* 🏋️‍♀️ TREINOS REALIZADOS */
+.treinos {
+  margin-top: 2rem;
+  text-align: left;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  padding: 1rem;
+  border: 1px solid var(--cor-borda);
+  box-shadow: inset 0 0 15px rgba(0, 255, 204, 0.1);
+}
+
+.treinos h3 {
+  text-align: center;
+  color: var(--cor-principal);
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  text-shadow: 0 0 8px rgba(0, 255, 204, 0.4);
+}
+
+.total-treinos {
+  text-align: center;
+  color: var(--cor-placeholder);
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+}
+
+.treinos ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 200px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.treinos li {
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--cor-texto);
+  font-size: 0.95rem;
+}
+
+.treinos li:last-child {
+  border-bottom: none;
+}
