@@ -14,7 +14,8 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
   <!-- Chart.js -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+
 </head>
 
 <body>
@@ -33,26 +34,38 @@
       <p><strong>Peso atual:</strong> <span id="pesoAtual">--</span> kg</p>
       <p><strong>IMC:</strong> <span id="imcValor">--</span> (<span id="imcClass">--</span>)</p>
     </section> 
-
-     <section class="treinos">
+<div id="treinosRealizados" class="card">
   <h3>Treinos Realizados</h3>
-  <p id="totalTreinos" class="total-treinos">Carregando...</p>
-</section><br>
+  <p>Carregando...</p>
+</div>
+<br>
 
     <button id="adicionarPesoBtn">Registrar novo peso</button>
   </main>
 
-  <!-- Barra inferior -->
+  <!-- 🟢 Barra de Navegação Inferior -->
   <nav class="tab-bar">
-    <a href="home.html" class="tab"><ion-icon name="home-outline"></ion-icon><span>Home</span></a>
-    <a href="treinos.html" class="tab"><ion-icon name="barbell-outline"></ion-icon><span>Treinos</span></a>
-    <a href="progresso.html" class="tab active"><ion-icon name="stats-chart-outline"></ion-icon><span>Progresso</span></a>
-    <a href="perfil.html" class="tab"><ion-icon name="person-outline"></ion-icon><span>Perfil</span></a>
-  </nav>
+    <a href="home.html" style="text-decoration: none;" class="tab">
+        <ion-icon name="home-outline"></ion-icon>
+        <span>Home</span>
+    </a>
+    <a href="treinos.html" style="text-decoration: none;" class="tab">
+        <ion-icon name="barbell-outline"></ion-icon>
+        <span>Treinos</span>
+    </a>
+    <a href="progresso.html" style="text-decoration: none;" class="tab active">
+        <ion-icon name="stats-chart-outline"></ion-icon>
+        <span>Progresso</span>
+    </a>
+    <a href="perfil.html" style="text-decoration: none;" class="tab">
+        <ion-icon name="person-outline"></ion-icon>
+        <span>Perfil</span>
+    </a>
+</nav>
 
-  <!-- Ícones Ionic -->
-  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+<!-- Ícones do Ionic -->
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 
   
   <!-- ✅ Modal para atualizar peso -->

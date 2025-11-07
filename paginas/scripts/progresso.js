@@ -2,13 +2,13 @@
 // Config Firebase
 // =====================
 const firebaseConfig = {
-  apiKey: "AIzaSyAbVJUTwovjKHua6OWP_yIncKYytEEwPfo",
-  authDomain: "tcc-994f7.firebaseapp.com",
-  projectId: "tcc-994f7",
-  storageBucket: "tcc-994f7.firebasestorage.app",
-  messagingSenderId: "848443566233",
-  appId: "1:848443566233:web:b9be3b2beccb027fa53008",
-  measurementId: "G-SGB2LYMT17",
+  apiKey: "AIzaSyCUD-MKVkhBge2I1cTlxUCgPKLnv_rkJAs",
+  authDomain: "tccgymwarriors.firebaseapp.com",
+  projectId: "tccgymwarriors",
+  storageBucket: "tccgymwarriors.firebasestorage.app",
+  messagingSenderId: "990564612699",
+  appId: "1:990564612699:web:eb109997deaeac5cf59d7e",
+  measurementId: "G-E1P7LCT3EN",
 };
 
 firebase.initializeApp(firebaseConfig);
@@ -57,7 +57,7 @@ auth.onAuthStateChanged(async (user) => {
     console.error("Erro ao carregar progresso:", error);
   }
 
-  // Listener em tempo real
+  // Listener em tempo real para atualizar gráfico
   pesosRef.orderBy("data", "asc").onSnapshot((snapshot) => {
     pesos = snapshot.docs.map((doc) => doc.data());
     atualizarTela(pesos);
@@ -107,14 +107,16 @@ auth.onAuthStateChanged(async (user) => {
     modal.style.display = "none";
     inputPeso.value = "";
   });
+
+  // 🔹 Carrega também os treinos realizados
+  carregarTreinosRealizados(uid);
 });
 
- const input = document.getElementById('inputPeso');
-  input.addEventListener('input', () => {
-    if (input.value.length > 3) {
-      input.value = input.value.slice(0, 3);
-    }
-  });
+// Impede número negativo e remove setinhas
+const input = document.getElementById("inputPeso");
+input.addEventListener("input", () => {
+  if (input.value.length > 3) input.value = input.value.slice(0, 3);
+});
 
 // =====================
 // Atualiza tela e gráfico
@@ -162,15 +164,11 @@ function classificarIMC(imc) {
 function renderizarGrafico(pesos) {
   const ctx = document.getElementById("graficoPeso").getContext("2d");
 
-  // Pega os últimos 5 registros
   const ultimosPesos = pesos.slice(-5);
-
-  // Formata data para "dd/mm"
   const labels = ultimosPesos.map((p) => {
     const data = new Date(p.data.toDate ? p.data.toDate() : p.data);
     return data.toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit" });
   });
-
   const valores = ultimosPesos.map((p) => p.peso);
 
   if (chart) chart.destroy();
@@ -194,7 +192,6 @@ function renderizarGrafico(pesos) {
     options: {
       scales: {
         y: {
-          beginAtZero: false,
           ticks: { color: "#fff" },
         },
         x: {
@@ -209,50 +206,69 @@ function renderizarGrafico(pesos) {
     },
   });
 }
-
-// =====================
-// Treinos realizados (totais por tipo)
-// =====================
-auth.onAuthStateChanged(async (user) => {
-  if (!user) return;
-
-  const treinosRef = db
-    .collection("usuarios")
-    .doc(user.uid)
-    .collection("progresso");
-
+// ================================
+// 🔹 TREINOS REALIZADOS (por grupo)
+// ================================
+async function carregarTreinosRealizados(userId) {
   try {
-    const snapshot = await treinosRef.get();
+    const treinosRef = db
+      .collection("usuarios")
+      .doc(userId)
+      .collection("progresso");
 
-    const totalElement = document.getElementById("totalTreinos");
-    if (!totalElement) return;
+    const snapshot = await treinosRef.get();
+    const container = document.getElementById("treinosRealizados");
+    if (!container) return;
 
     if (snapshot.empty) {
-      totalElement.textContent = "Nenhum treino registrado ainda.";
+      container.innerHTML = `
+        <h3>Treinos Realizados</h3>
+        <p>Nenhum treino registrado ainda.</p>
+      `;
       return;
     }
 
-    // Contadores
-    let total = 0;
-    const tipos = {};
-
+    // Conta os treinos por grupo
+    const grupos = {};
     snapshot.forEach((doc) => {
-      const treino = doc.data();
-      const tipo = (treino.tipo || "Outros").toLowerCase();
-      tipos[tipo] = (tipos[tipo] || 0) + 1;
-      total++;
+      const dados = doc.data();
+      const grupo = (dados.grupo || "Desconhecido").toLowerCase();
+      grupos[grupo] = (grupos[grupo] || 0) + 1;
     });
 
-    // Monta texto resumo
-    let resumo = `Total: ${total} treinos\n`;
-    resumo += Object.entries(tipos)
-      .map(([tipo, qtd]) => `• ${tipo.charAt(0).toUpperCase() + tipo.slice(1)}: ${qtd}`)
-      .join("\n");
+    const total = Object.values(grupos).reduce((a, b) => a + b, 0);
 
-    totalElement.textContent = resumo;
-  } catch (error) {
-    console.error("Erro ao carregar treinos realizados:", error);
-    const totalElement = document.getElementById("totalTreinos");
-    if (totalElement) totalElement.textContent = "Erro ao carregar treinos.";
+    // Cria a lista com um grupo por linha
+    const listaGrupos = Object.entries(grupos)
+      .map(
+        ([grupo, qtd]) =>
+          `<li><strong>${grupo.charAt(0).toUpperCase() + grupo.slice(1)}:</strong> ${qtd}</li>`
+      )
+      .join("");
+
+    container.innerHTML = `
+  <div style="text-align: center;">
+    <h3 style="margin-bottom: 8px;">Treinos Realizados</h3>
+    <p><strong style="color: #00aea8;">Total:</strong> ${total} treinos</p>
+    <ul style="
+      list-style: none; 
+      padding-left: 0; 
+      margin-top: 10px; 
+      color: #fff; 
+      display: inline-block; 
+      text-align: left;
+    ">
+      ${listaGrupos}
+    </ul>
+  </div>
+`;
+  } catch (erro) {
+    console.error("Erro ao carregar treinos realizados:", erro);
+    const container = document.getElementById("treinosRealizados");
+    if (container)
+      container.innerHTML = `
+        <h3>Treinos Realizados</h3>
+        <p>Erro ao carregar os dados.</p>
+      `;
   }
-});
+}

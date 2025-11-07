@@ -2,12 +2,13 @@
 // 🔹 FIREBASE CONFIG
 // ================================
 const firebaseConfig = {
-  apiKey: "AIzaSyAbVJUTwovjKHua6OWP_yIncKYytEEwPfo",
-  authDomain: "tcc-994f7.firebaseapp.com",
-  projectId: "tcc-994f7",
-  storageBucket: "tcc-994f7.appspot.com",
-  messagingSenderId: "848443566233",
-  appId: "1:848443566233:web:b9be3b2beccb027fa53008"
+  apiKey: "AIzaSyCUD-MKVkhBge2I1cTlxUCgPKLnv_rkJAs",
+  authDomain: "tccgymwarriors.firebaseapp.com",
+  projectId: "tccgymwarriors",
+  storageBucket: "tccgymwarriors.firebasestorage.app",
+  messagingSenderId: "990564612699",
+  appId: "1:990564612699:web:eb109997deaeac5cf59d7e",
+  measurementId: "G-E1P7LCT3EN"
 };
 
 firebase.initializeApp(firebaseConfig);

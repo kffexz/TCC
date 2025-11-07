@@ -125,7 +125,9 @@ canvas {
   box-shadow: 0 0 30px rgba(0, 255, 204, 0.6);
 }
 
-/* ⚡ BARRA INFERIOR */
+/* ===================================
+   ⚡ BARRA DE NAVEGAÇÃO INFERIOR
+=================================== */
 .tab-bar {
   position: fixed;
   bottom: 0;
@@ -141,6 +143,7 @@ canvas {
   box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.8);
   z-index: 999;
 }
+
 .tab {
   flex: 1;
   text-align: center;
@@ -151,13 +154,40 @@ canvas {
   flex-direction: column;
   align-items: center;
 }
+
+.tab ion-icon {
+  font-size: 1.8rem;
+  margin-bottom: 4px;
+  transition: all 0.3s ease;
+}
+
+/* Aba ativa com efeito “neon pulse” */
 .tab.active {
   color: var(--cor-principal);
+  transform: translateY(-3px);
   animation: pulse 1.5s infinite;
 }
+
+.tab.active ion-icon {
+  color: var(--cor-principal);
+  transform: scale(1.2);
+  filter: drop-shadow(0 0 6px var(--cor-principal));
+}
+
 @keyframes pulse {
   0%, 100% { text-shadow: 0 0 5px var(--cor-principal); }
   50% { text-shadow: 0 0 15px var(--cor-principal); }
+}
+
+/* Hover */
+.tab:hover {
+  color: var(--cor-destaque);
+  transform: translateY(-3px);
+}
+
+.tab:hover ion-icon {
+  color: var(--cor-destaque);
+  transform: scale(1.1);
 }
 
 /* 💬 MODAL CUSTOMIZADO */
