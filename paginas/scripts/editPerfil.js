@@ -44,8 +44,7 @@
             // Preenche os campos do formulário
             document.getElementById('cadNome').value = user.displayName || "";
             document.getElementById('altura').value = dados.altura || "";
-            document.getElementById('peso').value = dados.peso || "";
-            document.getElementById('idade').value = dados.idade || "";
+           
             document.getElementById('objetivo').value = dados.objetivo || "";
             descricaoObjetivo.textContent = descricoes[dados.objetivo] || "";
             document.getElementById('genero').value = dados.genero || "";
@@ -62,8 +61,8 @@
 
   const cadNome = document.getElementById('cadNome').value.trim();
   const altura = document.getElementById('altura').value ? Number(document.getElementById('altura').value) : null;
-  const peso = document.getElementById('peso').value ? Number(document.getElementById('peso').value) : null;
-  const idade = document.getElementById('idade').value ? Number(document.getElementById('idade').value) : null;
+
+  
   const objetivo = document.getElementById('objetivo').value;
   const genero = document.getElementById('genero').value;
 
@@ -85,8 +84,6 @@
   userRef.update({
     cadNome,
     altura,
-    peso,
-    idade,
     objetivo,
     genero
   })

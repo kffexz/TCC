@@ -23,37 +23,64 @@ auth.onAuthStateChanged(user => {
   }
 });
 
- const inputAltura = document.getElementById('altura');
-  inputAltura.addEventListener('input', () => {
-    if (inputAltura.value.length > 3) {
-      inputAltura.value = inputAltura.value.slice(0, 3);
-    }
-  });
+// 🔹 Limita altura e peso
+const inputAltura = document.getElementById('altura');
+inputAltura.addEventListener('input', () => {
+  if (inputAltura.value.length > 3) {
+    inputAltura.value = inputAltura.value.slice(0, 3);
+  }
+});
 
-   const inputPeso = document.getElementById('peso');
-  inputPeso.addEventListener('input', () => {
-    if (inputPeso.value.length > 3) {
-      inputPeso.value = inputPeso.value.slice(0, 3);
-    }
-  });
+const inputPeso = document.getElementById('peso');
+inputPeso.addEventListener('input', () => {
+  if (inputPeso.value.length > 3) {
+    inputPeso.value = inputPeso.value.slice(0, 3);
+  }
+});
 
-   const inputIdade = document.getElementById('idade');
-  inputIdade.addEventListener('input', () => {
-    if (inputIdade.value.length > 3) {
-      inputIdade.value = inputIdade.value.slice(0, 3);
-    }
-  });
+// 🔹 Define limites para o campo de data (mínimo 14, máximo 130 anos)
+const inputData = document.getElementById('dataNascimento');
+const hoje = new Date();
+const anoAtual = hoje.getFullYear();
 
-// Salvar dados no Firestore
+// calcula faixas de data
+const maxDate = new Date(anoAtual - 14, hoje.getMonth(), hoje.getDate());
+const minDate = new Date(anoAtual - 130, hoje.getMonth(), hoje.getDate());
+
+// aplica limites ao input
+inputData.max = maxDate.toISOString().split('T')[0];
+inputData.min = minDate.toISOString().split('T')[0];
+
+// 🔹 Função para calcular idade
+function calcularIdade(dataNascStr) {
+  const hoje = new Date();
+  const nascimento = new Date(dataNascStr);
+  let idade = hoje.getFullYear() - nascimento.getFullYear();
+  const mes = hoje.getMonth() - nascimento.getMonth();
+  if (mes < 0 || (mes === 0 && hoje.getDate() < nascimento.getDate())) {
+    idade--;
+  }
+  return idade;
+}
+
+// 🔹 Salvar dados no Firestore
 const form = document.getElementById('dadosForm');
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
 
   const altura = document.getElementById('altura').value;
   const peso = document.getElementById('peso').value;
-  const idade = document.getElementById('idade').value;
+  const dataNascimento = document.getElementById('dataNascimento').value;
   const objetivo = document.getElementById('objetivo').value;
   const genero = document.getElementById('genero').value;
+
+  const idade = calcularIdade(dataNascimento);
+
+  // Validação extra no JS
+  if (idade < 14 || idade > 130) {
+    showCustomAlert("A idade deve estar entre 14 e 130 anos.");
+    return;
+  }
 
   const user = auth.currentUser;
 
@@ -63,22 +90,22 @@ form.addEventListener('submit', async (e) => {
       const docSnapshot = await userRef.get();
 
       if (docSnapshot.exists) {
-        // Usuário já possui registro → atualiza, mas mantém pesoInicial
         const dadosAntigos = docSnapshot.data();
         await userRef.update({
           altura,
           peso,
           idade,
+          dataNascimento,
           objetivo,
           genero,
-          pesoInicial: dadosAntigos.pesoInicial || peso // mantém ou define se não existir
+          pesoInicial: dadosAntigos.pesoInicial || peso
         });
       } else {
-        // Primeiro cadastro → cria com pesoInicial = peso atual
         await userRef.set({
           altura,
           peso,
           idade,
+          dataNascimento,
           objetivo,
           genero,
           pesoInicial: peso
@@ -116,7 +143,7 @@ function closeCustomAlert() {
   }
 }
 
-// Exibe a descrição conforme o objetivo selecionado
+// 🔹 Exibe a descrição conforme o objetivo selecionado
 const objetivoSelect = document.getElementById('objetivo');
 const descricaoObjetivo = document.getElementById('descricaoObjetivo');
 

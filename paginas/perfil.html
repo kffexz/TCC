@@ -1,64 +1,61 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gym Warriors - Perfil</title>
-    <link rel="stylesheet" href="style/perfil.css" />
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gym Warriors - Perfil</title>
+  <link rel="stylesheet" href="style/perfil.css" />
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 </head>
 
 <body>
-    <div class="container">
-        <div class="form-box">
-            <h2>Perfil</h2>
-            <div class="perfil-info">
-                <p><strong>Nome:</strong> <span id="userName">Carregando...</span></p>
-                <p><strong>Idade:</strong> <span id="perfilIdade">Carregando...</span></p>
-                <p><strong>Peso:</strong> <span id="perfilPeso">Carregando...</span></p>
-                <p><strong>Altura:</strong> <span id="perfilAltura">Carregando...</span></p>
-                <p><strong>Objetivo:</strong> <span id="perfilObjetivo">Carregando...</span></p>
-                <p><strong>Equipamentos:</strong> <span id="perfilEquipamentos">Carregando...</span></p><br />
+  <div class="container">
+    <div class="form-box">
+      <h2>Perfil</h2>
+      <div class="perfil-info">
+        <p><strong>Nome:</strong> <span id="userName">Carregando...</span></p>
+        <p><strong>Idade:</strong> <span id="perfilIdade">Carregando...</span></p>
+        <p><strong>Peso:</strong> <span id="perfilPeso">Carregando...</span></p>
+        <p><strong>Altura:</strong> <span id="perfilAltura">Carregando...</span></p>
+        <p><strong>Objetivo:</strong> <span id="perfilObjetivo">Carregando...</span></p>
+        <p><strong>Equipamentos:</strong> <span id="perfilEquipamentos">Carregando...</span></p><br>
 
-                <button id="editEquipamentosBtn">Editar Equipamentos</button> 
-                <button id="editarPerfilBtn">Editar Perfil</button>
-                
-                <!-- Botão de Logout -->
-                <button id="logoutBtn" style="margin-top: 20px;">Sair da Conta</button>
-            </div>
-        </div>
+        <button id="editEquipamentosBtn">Editar Equipamentos</button>
+        <button id="editarPerfilBtn">Editar Perfil</button>
+        <button id="logoutBtn" style="margin-top: 20px;">Sair da Conta</button>
+        <button id="deleteAccountBtn">Excluir Conta</button>
+      </div>
     </div>
+  </div>
 
-    <!-- 🟢 Barra de Navegação Inferior -->
-    <nav class="tab-bar">
-        <a href="home.html" style="text-decoration: none;" class="tab">
-            <ion-icon name="home-outline"></ion-icon>
-            <span>Home</span>
-        </a>
-        <a href="treinos.html" style="text-decoration: none;" class="tab">
-            <ion-icon name="barbell-outline"></ion-icon>
-            <span>Treinos</span>
-        </a>
-        <a href="progresso.html" style="text-decoration: none;" class="tab">
-            <ion-icon name="stats-chart-outline"></ion-icon>
-            <span>Progresso</span>
-        </a>
-        <a href="perfil.html" style="text-decoration: none;" class="tab active">
-            <ion-icon name="person-outline"></ion-icon>
-            <span>Perfil</span>
-        </a>
-    </nav>
+  <!-- 🔹 Modal Personalizado -->
+  <div id="customAlert" class="modal-alert" style="display: none;">
+    <div class="modal-content">
+      <p id="customAlertMessage"></p>
+      <div id="customAlertButtons" style="display: flex; justify-content: center; gap: 10px;">
+        <button id="confirmBtn">Confirmar</button>
+        <button id="cancelBtn" style="background-color: #444;">Cancelar</button>
+      </div>
+    </div>
+  </div>
 
-    <!-- Ícones do Ionic -->
-    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  <!-- 🟢 Barra de Navegação Inferior -->
+  <nav class="tab-bar">
+    <a href="home.html" class="tab"><ion-icon name="home-outline"></ion-icon><span>Home</span></a>
+    <a href="treinos.html" class="tab"><ion-icon name="barbell-outline"></ion-icon><span>Treinos</span></a>
+    <a href="progresso.html" class="tab"><ion-icon name="stats-chart-outline"></ion-icon><span>Progresso</span></a>
+    <a href="perfil.html" class="tab active"><ion-icon name="person-outline"></ion-icon><span>Perfil</span></a>
+  </nav>
 
-    <script src="scripts/perfil.js">
-       
-    </script>
+  <!-- Ícones do Ionic -->
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+  <!-- Script principal -->
+  <script src="scripts/perfil.js"></script>
 </body>
-
 </html>

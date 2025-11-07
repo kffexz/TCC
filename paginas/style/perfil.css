@@ -1,155 +1,150 @@
 /* ===========================================
        ⚡ GYM WARRIORS - PERFIL
-    =========================================== */
-    
-    :root {
-      --cor-fundo: #0b0b0b;
-      --cor-container: rgba(25, 25, 25, 0.9);
-      --cor-principal: #00ffcc;
-      --cor-secundaria: #00bfa6;
-      --cor-texto: #ffffff;
-      --cor-borda: rgba(255, 255, 255, 0.1);
-      --sombra: 0 0 20px rgba(0, 255, 204, 0.25);
-      --cor-destaque: #00f5d4;
-    }
-    
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: "Poppins", sans-serif;
-    }
-    
-    /* ===========================================
-       🌌 BODY
-    =========================================== */
-    body {
-      min-height: 100vh;
-     background: radial-gradient(circle at 50% 30%, #1b9d94, #000);
-      color: var(--cor-texto);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding-bottom: 100px;
-    }
-    
-    /* ===========================================
-       🧱 CONTAINER PERFIL
-    =========================================== */
-    .container {
-      width: 95%;
-      max-width: 480px;
-      margin-top: 2rem;
-    }
-    
-    .form-box {
-      background: var(--cor-container);
-      backdrop-filter: blur(15px);
-      border-radius: 25px;
-      border: 1px solid var(--cor-borda);
-      padding: 2rem 1.5rem;
-      box-shadow: var(--sombra);
-      transition: all 0.3s ease;
-    }
-    
-    .form-box:hover {
-      transform: scale(1.02);
-      box-shadow: 0 0 30px rgba(0, 255, 204, 0.3);
-    }
-    
-    /* ===========================================
-       🏷️ TÍTULOS
-    =========================================== */
-    h2 {
-      text-align: center;
-      color: var(--cor-principal);
-      margin-bottom: 2rem;
-      text-shadow: 0 0 10px rgba(0, 255, 204, 0.4);
-    }
-    
-    /* ===========================================
-       📄 INFORMAÇÕES DE PERFIL (ALINHAMENTO MELHORADO)
-    =========================================== */
-    .perfil-info {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-    
-    .perfil-info p {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid var(--cor-borda);
-      padding: 12px 16px;
-      border-radius: 12px;
-      font-size: 1rem;
-      color: var(--cor-texto);
-      line-height: 1.4;
-      transition: background 0.3s ease;
-    }
-    
-    .perfil-info p:hover {
-      background: rgba(255, 255, 255, 0.08);
-    }
-    
-    .perfil-info strong {
-      flex: 0 0 35%;
-      text-align: left;
-      color: var(--cor-principal);
-      font-weight: 600;
-    }
-    
-    .perfil-info span {
-      flex: 1;
-      text-align: center;
-      color: #d1d1d1;
-      font-weight: 500;
-      word-break: break-word;
-    }
-    
-    /* ===========================================
-       🧩 BOTÕES
-    =========================================== */
-    .perfil-info button {
-      width: 100%;
-      margin-top: 15px;
-      padding: 12px;
-      font-weight: 600;
-      border: none;
-      border-radius: 12px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: var(--sombra);
-    }
-    
-    #editEquipamentosBtn {
-      background: linear-gradient(90deg, var(--cor-principal), var(--cor-secundaria));
-      color: #000;
-    }
-    
-    #editarPerfilBtn {
-      background: linear-gradient(90deg, var(--cor-principal), var(--cor-secundaria));
-      color: #000;
-    }
-    
-    .perfil-info button:hover {
-      transform: translateY(-3px) scale(1.03);
-    }
-    
+=========================================== */
+:root {
+  --cor-fundo: #0b0b0b;
+  --cor-container: rgba(25, 25, 25, 0.9);
+  --cor-principal: #00ffcc;
+  --cor-secundaria: #00bfa6;
+  --cor-texto: #ffffff;
+  --cor-borda: rgba(255, 255, 255, 0.1);
+  --sombra: 0 0 20px rgba(0, 255, 204, 0.25);
+  --cor-destaque: #00f5d4;
+}
 
-    
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+/* ===========================================
+       🌌 BODY
+=========================================== */
+body {
+  min-height: 100vh;
+  background: radial-gradient(circle at 50% 30%, #1b9d94, #000);
+  color: var(--cor-texto);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 100px;
+}
+
+/* ===========================================
+       🧱 CONTAINER PERFIL
+=========================================== */
+.container {
+  width: 95%;
+  max-width: 480px;
+  margin-top: 2rem;
+}
+
+.form-box {
+  background: var(--cor-container);
+  backdrop-filter: blur(15px);
+  border-radius: 25px;
+  border: 1px solid var(--cor-borda);
+  padding: 2rem 1.5rem;
+  box-shadow: var(--sombra);
+  transition: all 0.3s ease;
+}
+
+.form-box:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 30px rgba(0, 255, 204, 0.3);
+}
+
+/* ===========================================
+       🏷️ TÍTULOS
+=========================================== */
+h2 {
+  text-align: center;
+  color: var(--cor-principal);
+  margin-bottom: 2rem;
+  text-shadow: 0 0 10px rgba(0, 255, 204, 0.4);
+}
+
+/* ===========================================
+       📄 INFORMAÇÕES DE PERFIL
+=========================================== */
+.perfil-info {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.perfil-info p {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--cor-borda);
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-size: 1rem;
+  color: var(--cor-texto);
+  line-height: 1.4;
+  transition: background 0.3s ease;
+}
+
+.perfil-info p:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.perfil-info strong {
+  flex: 0 0 35%;
+  text-align: left;
+  color: var(--cor-principal);
+  font-weight: 600;
+}
+
+.perfil-info span {
+  flex: 1;
+  text-align: center;
+  color: #d1d1d1;
+  font-weight: 500;
+  word-break: break-word;
+}
+
+/* ===========================================
+       🧩 BOTÕES
+=========================================== */
+.perfil-info button {
+  width: 100%;
+  margin-top: 15px;
+  padding: 12px;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: var(--sombra);
+}
+
+#editEquipamentosBtn,
+#editarPerfilBtn {
+  background: linear-gradient(90deg, var(--cor-principal), var(--cor-secundaria));
+  color: #000;
+}
+
+.perfil-info button:hover {
+  transform: translateY(-3px) scale(1.03);
+}
+
 /* ===================================
-   🚪 BOTÃO SAIR
+   🚪 BOTÃO SAIR E EXCLUIR
 =================================== */
-#logoutBtn {
+#logoutBtn,
+#deleteAccountBtn {
   color: white;
   background: #e53935;
   box-shadow: 0 0 15px rgba(229, 57, 53, 0.3);
 }
 
-#logoutBtn:hover {
+#logoutBtn:hover,
+#deleteAccountBtn:hover {
   background: #d32f2f;
   transform: scale(1.05);
   box-shadow: 0 0 15px rgba(229, 57, 53, 0.5);
@@ -191,7 +186,6 @@
   transition: all 0.3s ease;
 }
 
-/* Aba ativa com efeito “neon pulse” */
 .tab.active {
   color: var(--cor-principal);
   transform: translateY(-3px);
@@ -209,7 +203,6 @@
   50% { text-shadow: 0 0 15px var(--cor-principal); }
 }
 
-/* Hover */
 .tab:hover {
   color: var(--cor-destaque);
   transform: translateY(-3px);
@@ -220,7 +213,6 @@
   transform: scale(1.1);
 }
 
-
 /* ===========================================
    📱 RESPONSIVIDADE
 =========================================== */
@@ -229,15 +221,92 @@
     padding: 1.5rem 1rem;
   }
 
-  h1 {
-    font-size: 1.7rem;
-  }
-
   h2 {
     font-size: 1rem;
   }
 
-  #exerciciosContainer p {
+  .perfil-info p {
     font-size: 0.9rem;
+  }
+}
+
+/* =========================
+   💬 MODAL PERSONALIZADO
+========================= */
+.modal-alert {
+  position: fixed;
+  z-index: 9999;
+  inset: 0;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(5px);
+  animation: fadeIn 0.3s ease forwards;
+}
+
+.modal-content {
+  background-color: var(--cor-container);
+  padding: 25px;
+  border-radius: 15px;
+  text-align: center;
+  width: 90%;
+  max-width: 350px;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+  animation: slideIn 0.4s ease;
+}
+
+.modal-content p {
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+  color: var(--cor-texto);
+}
+
+.modal-content button {
+  background: var(--cor-principal);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.modal-content button:hover {
+  background: #00d2cb;
+  transform: translateY(-2px);
+}
+
+/* Botão de cancelar */
+#cancelBtn {
+  background-color: #444;
+}
+
+#cancelBtn:hover {
+  background-color: #555;
+  transform: translateY(-2px);
+}
+
+/* =========================
+   ANIMAÇÕES
+========================= */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
 }
