@@ -1,46 +1,41 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
   <link rel="icon" type="image/png" href="../assets/logo.png">
   <link rel="stylesheet" href="style/log.css">
-
   <meta charset="UTF-8">
-
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gym Warriors - login</title>
+  <title>Gym Warriors - Login</title>
 
-  <!-- Firebase -->
+  <!-- Firebase Compat (v9) -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 </head>
 
 <body>
-
   <div class="container">
     <img src="../assets/logo.png" alt="Logo TCC" id="logo" />
     <h2>Gym Warriors</h2>
-    <!-- Formulário de Login -->
-   <div class="form-box">
+
+    <div class="form-box">
       <h3>Login</h3>
       <input type="email" id="logEmail" placeholder="Email">
       <input type="password" id="logSenha" placeholder="Senha">
       <button onclick="login()">Entrar</button>
       
-      <a href="#" onclick="recuperarSenha(); return false;" 
-         style="color: #00aea8; text-decoration: none;">
-         Esqueci minha senha
+      <a href="#" onclick="recuperarSenha(); return false;" style="color: #00aea8; text-decoration: none;">
+        Esqueci minha senha
       </a>
       
       <p id="msgLogin"></p>
     </div>
-    <p>você não tem uma conta?
-      <a href="cadastro.html" style="text-decoration: none; color: #00aea8;">cadastre-se</a> aqui
-    </p>
 
+    <p>Você não tem uma conta?
+      <a href="cadastro.html" style="color: #00aea8; text-decoration: none;">Cadastre-se</a> aqui
+    </p>
   </div>
 
   <script src="js.js"></script>
 </body>
-
 </html>
