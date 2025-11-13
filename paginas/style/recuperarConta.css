@@ -1,0 +1,264 @@
+/* =======================================
+   GYM WARRIORS - RECUPERAR CONTA (DARK MODE FIXED)
+======================================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", "Segoe UI", sans-serif;
+  }
+  
+  :root {
+    --cor-fundo: #0a0a0a;
+    --cor-container: #141414;
+    --cor-principal: #00ffc3;
+    --cor-secundaria: #00bfa6;
+    --cor-texto: #f1f1f1;
+    --radius: 16px;
+    --transicao: 0.3s ease;
+  }
+  
+  /* =======================================
+     FUNDO GERAL
+  ======================================= */
+  html, body {
+    height: 100%;
+    width: 100%;
+    overflow: hidden; /* impede rolagem */
+  }
+  
+  body {
+    background: linear-gradient(135deg, #000 0%, #002a26 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--cor-texto);
+    position: relative;
+    padding: 1.5rem;
+  }
+  
+  /* Luz neon suave no fundo */
+  body::before,
+  body::after {
+    content: "";
+    position: absolute;
+    width: 250px;
+    height: 250px;
+    background: var(--cor-principal);
+    border-radius: 50%;
+    filter: blur(150px);
+    opacity: 0.2;
+    z-index: 0;
+    pointer-events: none;
+  }
+  
+  body::before {
+    top: 0;
+    left: 0;
+  }
+  
+  body::after {
+    bottom: 0;
+    right: 0;
+  }
+  
+  /* =======================================
+     CONTAINER CENTRAL
+  ======================================= */
+  .recuperar-container {
+    position: relative;
+    z-index: 1;
+    background: var(--cor-container);
+    border: 1px solid rgba(0, 255, 195, 0.15);
+    border-radius: var(--radius);
+    padding: 3rem 2.5rem;
+    text-align: center;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 0 25px rgba(0, 255, 195, 0.08);
+    transition: all var(--transicao);
+    animation: fadeInUp 0.8s ease forwards;
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  
+  @keyframes fadeInUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* =======================================
+     TÍTULOS E TEXTOS
+  ======================================= */
+  .recuperar-container h2 {
+    font-size: clamp(1.5rem, 4vw, 1.9rem);
+    color: var(--cor-principal);
+    font-weight: 700;
+    margin-bottom: 0.8rem;
+    letter-spacing: 0.5px;
+  }
+  
+  .recuperar-container p {
+    font-size: clamp(0.95rem, 2.5vw, 1rem);
+    color: #cccccc;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+    padding: 0 0.5rem;
+  }
+  
+  /* =======================================
+     BOTÕES
+  ======================================= */
+  .recuperar-container button {
+    width: 100%;
+    padding: 14px;
+    font-size: clamp(0.95rem, 2.5vw, 1rem);
+    font-weight: 600;
+    border: none;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: all var(--transicao);
+    margin-bottom: 14px;
+    letter-spacing: 0.5px;
+  }
+  
+  /* Botão principal */
+  #reativarBtn {
+    background: linear-gradient(90deg, var(--cor-principal), var(--cor-secundaria));
+    color: #0b0b0b;
+    box-shadow: 0 0 12px rgba(0, 255, 195, 0.4);
+  }
+  
+  #reativarBtn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 25px rgba(0, 255, 195, 0.6);
+  }
+  
+  /* Botão secundário */
+  .recuperar-container button:last-of-type {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: var(--cor-texto);
+  }
+  
+  .recuperar-container button:last-of-type:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-3px);
+  }
+  
+  /* =======================================
+     RESPONSIVIDADE
+  ======================================= */
+  @media (max-width: 480px) {
+    body {
+      padding: 1rem;
+    }
+  
+    .recuperar-container {
+      padding: 2rem 1.3rem;
+      border-radius: 14px;
+    }
+  
+    .recuperar-container h2 {
+      font-size: 1.6rem;
+    }
+  
+    .recuperar-container p {
+      font-size: 0.95rem;
+    }
+  
+    .recuperar-container button {
+      padding: 12px;
+      font-size: 0.95rem;
+    }
+  }
+
+  
+  /* 💬 MODAL CONFIRMAR SENHA */
+.modal-alert {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+.modal-content {
+  background: var(--cor-container);
+  padding: 2rem;
+  border-radius: 20px;
+  width: 90%;
+  max-width: 350px;
+  text-align: center;
+  box-shadow: 0 0 25px rgba(0, 255, 195, 0.3);
+  animation: fadeInModal 0.3s ease;
+}
+@keyframes fadeInModal {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+.modal-content h3 {
+  color: var(--cor-principal);
+  margin-bottom: 1rem;
+}
+.modal-content input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid rgba(0,255,195,0.2);
+  border-radius: 8px;
+  background: #111;
+  color: var(--cor-texto);
+  font-size: 1rem;
+  margin-bottom: 0.8rem;
+}
+.btns {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.btns button {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s;
+}
+#confirmSenhaBtn {
+  background: linear-gradient(90deg, var(--cor-principal), var(--cor-secundaria));
+  color: #000;
+}
+#cancelSenhaBtn {
+  background: #333;
+  color: white;
+}
+#confirmSenhaBtn:hover, #cancelSenhaBtn:hover {
+  transform: translateY(-2px);
+}
+
+/* 🔔 Mensagens dentro do modal */
+.msg-modal {
+  min-height: 20px;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.msg-erro {
+  color: #ff7070;
+  text-shadow: 0 0 8px rgba(255, 0, 0, 0.4);
+}
+
+.msg-sucesso {
+  color: #00ffc3;
+  text-shadow: 0 0 8px rgba(0, 255, 195, 0.4);
+}
+
+.msg-info {
+  color: #cccccc;
+}

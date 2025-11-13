@@ -68,24 +68,6 @@
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 
   
-  <!-- ✅ Modal para atualizar peso -->
-  <div id="customAlert" class="modal-alert" style="display: none;">
-    <div class="modal-content">
-      <h3>Atualizar Peso</h3>
-      <input 
-      type="number" 
-      id="inputPeso" 
-      placeholder="Digite seu novo peso (kg)" 
-      required onkeydown="if (event.key === '-' || event.key === 'e' || event.key === 'E') event.preventDefault();"
-      min="0" 
-      max="650" 
-      step="0.1"
-      />
-      <div class="btns">
-        <button id="confirmPesoBtn">Confirmar</button>
-      <button id="cancelPesoBtn">Cancelar</button>
-    </div>
-  </div>
 </div>
 
 <script src="scripts/progresso.js"></script>

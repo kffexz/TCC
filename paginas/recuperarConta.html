@@ -13,6 +13,25 @@
     <button onclick="window.location.href='login.html'">Voltar</button>
   </div>
 
+  
+  <!-- 🔐 Modal Confirmar Senha -->
+<div id="modalSenha" class="modal-alert" style="display:none;">
+  <div class="modal-content">
+    <h3>Confirme sua senha</h3>
+    <input 
+      type="password" 
+      id="inputSenha" 
+      placeholder="Digite sua senha..." 
+      required
+    />
+    <p id="mensagemModal" class="msg-modal"></p>
+    <div class="btns">
+      <button id="confirmSenhaBtn">Confirmar</button>
+      <button id="cancelSenhaBtn">Cancelar</button>
+    </div>
+  </div>
+</div>
+
   <!-- Firebase (modo compat v9) -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
@@ -21,5 +40,6 @@
   <script src="scripts/recuperarConta.js">
    
   </script>
+
 </body>
 </html>

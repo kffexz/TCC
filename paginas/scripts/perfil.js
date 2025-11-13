@@ -26,6 +26,18 @@ auth.onAuthStateChanged((user) => {
       .then((doc) => {
         if (doc.exists) {
           const dados = doc.data();
+
+          // Verifica se o usuário não tem nenhum dado além do nome
+          const semDados =
+            (!dados.idade && !dados.peso && !dados.altura && !dados.objetivo && (!dados.equipamentos || dados.equipamentos.length === 0));
+
+          if (semDados) {
+            document.querySelector(".perfil-info").innerHTML =
+              "<p style='font-family: Poppins;'><strong>Dados não encontrados.</strong></p><p>Por favor, termine de realizar seu <a href='cadastro2.html' style='text-decoration:none; color: #FFFF;'><strong>cadastro</strong></a></p>";
+            return;
+          }
+
+          // Se o usuário tiver dados, mostra normalmente
           document.getElementById("userName").textContent = user.displayName || "---";
           document.getElementById("perfilIdade").textContent = dados.idade || "---";
           document.getElementById("perfilPeso").textContent = dados.peso || "---";
@@ -33,11 +45,15 @@ auth.onAuthStateChanged((user) => {
           document.getElementById("perfilObjetivo").textContent = dados.objetivo || "---";
 
           if (dados.equipamentos && dados.equipamentos.length > 0) {
-            document.getElementById("perfilEquipamentos").textContent = dados.equipamentos.join(", ");
+            document.getElementById("perfilEquipamentos").textContent =
+              dados.equipamentos.join(", ");
           } else {
-            document.getElementById("perfilEquipamentos").textContent = "Nenhum equipamento selecionado";
+            document.getElementById("perfilEquipamentos").textContent =
+              "Nenhum equipamento selecionado";
           }
+
         } else {
+          // <-- aqui está o seu else original
           document.querySelector(".perfil-info").innerHTML =
             "<p style='font-family: Poppins;'><strong>Dados não encontrados.</strong></p><br><p>Por favor, termine de realizar seu <a href='cadastro2.html' style='text-decoration:none; color: #FFFF;'><strong>cadastro</strong></a></p>";
         }
