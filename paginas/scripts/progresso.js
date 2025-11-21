@@ -37,7 +37,6 @@ auth.onAuthStateChanged(async (user) => {
   try {
     const snapshot = await pesosRef.orderBy("data", "asc").get();
 
-    // Se não houver registros, cria o primeiro com base no peso cadastrado
     if (snapshot.empty) {
       const userDoc = await userRef.get();
       if (userDoc.exists && userDoc.data().peso) {
@@ -57,65 +56,33 @@ auth.onAuthStateChanged(async (user) => {
     console.error("Erro ao carregar progresso:", error);
   }
 
-  // Listener em tempo real para atualizar gráfico
+  // Listener em tempo real
   pesosRef.orderBy("data", "asc").onSnapshot((snapshot) => {
     pesos = snapshot.docs.map((doc) => doc.data());
     atualizarTela(pesos);
   });
 
-  // =====================
-  // Modal Customizado
-  // =====================
-  const modal = document.getElementById("customAlert");
-  const inputPeso = document.getElementById("inputPeso");
-  const confirmPesoBtn = document.getElementById("confirmPesoBtn");
-  const cancelPesoBtn = document.getElementById("cancelPesoBtn");
+  // 🔹 Botão de registrar peso (SEM MODAL)
+  document.getElementById("adicionarPesoBtn").addEventListener("click", async () => {
+    const novoPeso = Number(prompt("Digite seu peso atual (kg):"));
 
-  // Abre modal
-  document.getElementById("adicionarPesoBtn").addEventListener("click", () => {
-    modal.style.display = "flex";
-    inputPeso.value = "";
-  });
-
-  // Fecha modal
-  cancelPesoBtn.addEventListener("click", () => {
-    modal.style.display = "none";
-  });
-
-  // Confirma peso
-  confirmPesoBtn.addEventListener("click", async () => {
-    const pesoAtual = parseFloat(inputPeso.value);
-
-    if (isNaN(pesoAtual)) {
-      alert("Digite um número válido!");
-      return;
-    }
-    if (pesoAtual < 0 || pesoAtual > 650) {
-      alert("O peso deve estar entre 0 e 650 kg!");
+    if (isNaN(novoPeso) || novoPeso <= 0 || novoPeso > 650) {
+      alert("Peso inválido!");
       return;
     }
 
     await pesosRef.add({
-      peso: pesoAtual,
+      peso: novoPeso,
       data: new Date(),
     });
 
     await userRef.update({
-      peso: pesoAtual,
+      peso: novoPeso,
     });
-
-    modal.style.display = "none";
-    inputPeso.value = "";
   });
 
-  // 🔹 Carrega também os treinos realizados
+  // 🔹 Carrega treinos realizados
   carregarTreinosRealizados(uid);
-});
-
-// Impede número negativo e remove setinhas
-const input = document.getElementById("inputPeso");
-input.addEventListener("input", () => {
-  if (input.value.length > 3) input.value = input.value.slice(0, 3);
 });
 
 // =====================
@@ -130,7 +97,6 @@ function atualizarTela(pesos) {
   document.getElementById("pesoInicial").textContent = pesoInicial.toFixed(1);
   document.getElementById("pesoAtual").textContent = pesoAtual.toFixed(1);
 
-  // Calcula IMC se altura existir
   auth.onAuthStateChanged(async (user) => {
     if (user) {
       const userDoc = await db.collection("usuarios").doc(user.uid).get();
@@ -159,7 +125,7 @@ function classificarIMC(imc) {
 }
 
 // =====================
-// Monta o gráfico (últimos 5 registros)
+// Gráfico
 // =====================
 function renderizarGrafico(pesos) {
   const ctx = document.getElementById("graficoPeso").getContext("2d");
@@ -169,6 +135,7 @@ function renderizarGrafico(pesos) {
     const data = new Date(p.data.toDate ? p.data.toDate() : p.data);
     return data.toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit" });
   });
+
   const valores = ultimosPesos.map((p) => p.peso);
 
   if (chart) chart.destroy();
@@ -191,23 +158,18 @@ function renderizarGrafico(pesos) {
     },
     options: {
       scales: {
-        y: {
-          ticks: { color: "#fff" },
-        },
-        x: {
-          ticks: { color: "#fff" },
-        },
+        y: { ticks: { color: "#fff" } },
+        x: { ticks: { color: "#fff" } },
       },
       plugins: {
-        legend: {
-          labels: { color: "#fff" },
-        },
+        legend: { labels: { color: "#fff" } },
       },
     },
   });
 }
+
 // ================================
-// 🔹 TREINOS REALIZADOS (por grupo)
+// 🔹 Treinos Realizados
 // ================================
 async function carregarTreinosRealizados(userId) {
   try {
@@ -228,7 +190,6 @@ async function carregarTreinosRealizados(userId) {
       return;
     }
 
-    // Conta os treinos por grupo
     const grupos = {};
     snapshot.forEach((doc) => {
       const dados = doc.data();
@@ -238,7 +199,6 @@ async function carregarTreinosRealizados(userId) {
 
     const total = Object.values(grupos).reduce((a, b) => a + b, 0);
 
-    // Cria a lista com um grupo por linha
     const listaGrupos = Object.entries(grupos)
       .map(
         ([grupo, qtd]) =>
@@ -247,28 +207,22 @@ async function carregarTreinosRealizados(userId) {
       .join("");
 
     container.innerHTML = `
-  <div style="text-align: center;">
-    <h3 style="margin-bottom: 8px;">Treinos Realizados</h3>
-    <p><strong style="color: #00aea8;">Total:</strong> ${total} treinos</p>
-    <ul style="
-      list-style: none; 
-      padding-left: 0; 
-      margin-top: 10px; 
-      color: #fff; 
-      display: inline-block; 
-      text-align: left;
-    ">
-      ${listaGrupos}
-    </ul>
-  </div>
-`;
+      <div style="text-align: center;">
+        <h3 style="margin-bottom: 8px;">Treinos Realizados</h3>
+        <p><strong style="color: #00aea8;">Total:</strong> ${total} treinos</p>
+        <ul style="
+          list-style: none;
+          padding-left: 0;
+          margin-top: 10px;
+          color: #fff;
+          display: inline-block;
+          text-align: left;
+        ">
+          ${listaGrupos}
+        </ul>
+      </div>
+    `;
   } catch (erro) {
     console.error("Erro ao carregar treinos realizados:", erro);
-    const container = document.getElementById("treinosRealizados");
-    if (container)
-      container.innerHTML = `
-        <h3>Treinos Realizados</h3>
-        <p>Erro ao carregar os dados.</p>
-      `;
   }
 }
