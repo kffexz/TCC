@@ -303,8 +303,8 @@ function mostrarDetalhes(ex, grupoMuscular) {
     <h2>${ex.exercicio}</h2>
     <p>Equipamento: ${ex.equipamento}</p>
     <p>Foco: ${ex.foco.join(", ")}</p>
-    <p><strong>${series} séries de ${repeticoes} repetições</strong></p>
-    <button id="btnRealizar">Finalizar Exercício</button>
+    <p><strong>${series} séries de ${repeticoes} repetições</strong></p><br>
+    <button id="btnRealizar">Finalizar Exercício</button>
     <button id="btnVoltar">Voltar</button>
   `;
 
@@ -358,17 +358,16 @@ btnGerarIA.addEventListener("click", async () => {
     return;
   }
   
-  // 1. Prepara os dados para o backend (AGORA INCLUINDO IDADE, PESO E ALTURA)
+  // 1. Prepara os dados para o backend
   const dadosParaIA = {
     objetivo: usuario.objetivo,
     equipamentos: equipamentosUsuario,
-    // 🚨 CORREÇÃO: Passando os dados obrigatórios que o backend espera
     peso: usuario.peso, 
     altura: usuario.altura, 
-    idade: usuario.idade // Presume que estes campos estão salvos no Firestore
+    idade: usuario.idade
   };
     
-    // 🚨 VALIDAÇÃO: Verifica se os dados necessários estão presentes antes de enviar
+    // VALIDAÇÃO: Verifica se os dados necessários estão presentes antes de enviar
     if (!dadosParaIA.peso || !dadosParaIA.altura || !dadosParaIA.idade) {
         console.error("Dados Físicos Faltando:", dadosParaIA);
         showCustomAlert("Erro: Peso, Altura ou Idade não foram encontrados no seu perfil. Certifique-se de que eles estão salvos no Firebase/Firestore.");
@@ -376,7 +375,7 @@ btnGerarIA.addEventListener("click", async () => {
     }
   
   treinoElem.textContent = "Gerando treino com Inteligência Artificial...";
-  container.innerHTML = ""; // Limpa a tela
+  container.innerHTML = ""; 
   
   try {
     // 2. Chama o backend (Node.js)
@@ -404,7 +403,7 @@ btnGerarIA.addEventListener("click", async () => {
 
 function exibirTreinoDaIA(treino) {
   container.innerHTML = "";
-  // Usa o nome do treino gerado pela IA (ex: "Treino de Peito e Tríceps")
+  // Usa o nome do treino gerado pela IA
   treinoElem.textContent = `Treino de IA: ${treino.treinoDoDia}`; 
   
   const grupoDiv = document.createElement("div");
@@ -432,7 +431,7 @@ function mostrarDetalhesIA(ex, grupoMuscular) {
   container.innerHTML = `
     <h2>${ex.nome}</h2>
     <p>Equipamento: ${ex.equipamento}</p>
-    <p><strong>${series} séries de ${repeticoes} repetições</strong></p>
+    <p><strong>${series} séries de ${repeticoes} repetições</strong></p><br>
     <button id="btnRealizar">Finalizar Exercício</button>
     <button id="btnVoltarIA">Voltar (Treino IA)</button>
   `;
